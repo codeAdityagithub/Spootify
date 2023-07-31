@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .player-base-color {
+        background: linear-gradient(0deg, #00000071, rgba(0, 0, 0, 0.1));
+        position: relative;
+    }
+    .player-base-color::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgb(88 0 0);
+        z-index: -10;
+    }
+    .imageloaded {
+        opacity: 1 !important;
+    }
+    .controls-icon {
+        cursor: pointer;
+    }
+
+    .playlist-shadow {
+        box-shadow: 0 0 150px black inset;
+    }
+
+    .seeker-range {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        height: 3px;
+        border-radius: 5px;
+        background: rgb(195, 195, 195);
+        outline: none;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .seeker-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+    }
+
+    .seeker-range::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border: none;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+    }
+
+    .seeker-range::-ms-thumb {
+        width: 14px;
+        height: 14px;
+
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+    }
+
+    .seeker-range::-webkit-slider-thumb:hover,
+    .seeker-range::-moz-range-thumb:hover,
+    .seeker-range::-ms-thumb:hover {
+        background: #ffffff;
+    }
+}
