@@ -11,30 +11,36 @@ import { Color } from "../types";
 import PlaylistCard from "../components/card/PlaylistCard";
 import { SongContext } from "../context/SongContext";
 import { PlaylistContext } from "../context/PlaylistContext";
+// import getPlaylistData from "../hooks/usePlaylistData";
 
 type Props = {};
 
-function Playlist({}: Props) {
+const Playlist = ({}: Props) => {
     const { playlistId } = useParams();
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { currentSong, setCurrentSong } = useContext(SongContext);
     const {
         currentIndex,
         setCurrentIndex,
-        playlist,
         setPlaylist,
         setPlaylistId,
+        playlist,
+        playlistId: p_id,
     } = useContext(PlaylistContext);
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+    const [songs, setSongs] = useState<Song[]>([]);
+    const [page, setPage] = useState(1);
+
+    const [hasMore, setHasMore] = useState(true);
 
     let playlistName = "Latest";
     if (playlistId !== "0") {
         playlistName = Genre[Number(playlistId)];
     }
-
-    let songs: Song[];
-    const { data, error, isLoading } = useSWR(
+    // let songs: Song[] = [];
+    const { data, error, isLoading, mutate } = useSWR(
         `http://localhost:8000/songs${
-            playlistId === "0" ? "" : `/${playlistId}`
+            playlistId === "0" ? `` : `/${playlistId}`
         }`,
         fetcher,
         {
@@ -44,11 +50,45 @@ function Playlist({}: Props) {
         }
     );
 
-    songs = data && data.results;
+    // songs = data && data.results;
+
     useEffect(() => {
-        songs && setPlaylist(songs);
+        data &&
+            (playlist.length === 0 || p_id !== Number(playlistId)) &&
+            setPlaylist(data.results);
+        // console.log(songs);
+        // if (songs && playlist && playlist.length > songs.length) {
+        //     addMore();
+        //     setPage((prev) => prev + 1);
+        // }
+        data && setSongs(data.results);
         setPlaylistId(Number(playlistId));
-    }, [songs]);
+    }, [data]);
+
+    const addMore = async () => {
+        if (!hasMore) return;
+        fetch(
+            `http://localhost:8000/songs${
+                playlistId !== "0" ? `/${playlistId}` : ""
+            }?page=${page}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                if (data) {
+                    if (data.results.length <= 0) {
+                        setHasMore(false);
+                    } else {
+                        // console.log(data.results);
+
+                        setPlaylist([...songs, ...data.results]);
+                        setSongs((prev) => [...prev, ...data.results]);
+                    }
+                }
+            });
+    };
+    const updatePlaylist = () => {
+        console.log(songs);
+    };
 
     let color: Color;
     color = currentSong !== "" ? currentSong.tags[1].color : null!;
@@ -77,19 +117,40 @@ function Playlist({}: Props) {
             </div>
             {/* playlist items */}
             <div className="flex flex-col items-center justify-center gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
-                {songs &&
-                    songs.map((song, index) => (
-                        <PlaylistCard
-                            key={index}
-                            song={song}
-                            index={index}
-                            isCurrent={currentIndex === index}
-                            setCurrentIndex={setCurrentIndex}
-                        />
-                    ))}
+                {songs && (playlist.length == 0 || p_id !== Number(playlistId))
+                    ? songs.map((song, index) => (
+                          <PlaylistCard
+                              key={index}
+                              song={song}
+                              index={index}
+                              isCurrent={currentIndex === index}
+                              setCurrentIndex={setCurrentIndex}
+                          />
+                      ))
+                    : playlist.map((song, index) => (
+                          <PlaylistCard
+                              key={index}
+                              song={song}
+                              index={index}
+                              isCurrent={currentIndex === index}
+                              setCurrentIndex={setCurrentIndex}
+                          />
+                      ))}
+                {hasMore ? (
+                    <button
+                        className="button"
+                        onClick={() => {
+                            setPage((prev) => prev + 1);
+                            addMore();
+                            // updatePlaylist();
+                        }}
+                    >
+                        Load More
+                    </button>
+                ) : null}
             </div>
         </div>
     );
-}
+};
 
 export default Playlist;

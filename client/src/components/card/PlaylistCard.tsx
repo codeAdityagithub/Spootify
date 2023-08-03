@@ -18,8 +18,39 @@ const PlaylistCard = ({
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
 }): React.ReactNode => {
     const imgRef = useRef<HTMLImageElement>(null);
+    const divRef = useRef<HTMLDivElement>(null);
 
     const { setCurrentSong } = useContext(SongContext);
+
+    const scrollToCenter = () => {
+        if (!isCurrent) {
+            return;
+        }
+        const element = divRef.current;
+
+        if (element) {
+            const elementRect = element.getBoundingClientRect();
+            const elementHeight = elementRect.height;
+            const windowHeight = window.innerHeight;
+            const scrollY = window.scrollY || window.pageYOffset;
+
+            // Calculate the position to scroll to (center of the screen)
+            const scrollPosition =
+                elementRect.top +
+                scrollY +
+                elementHeight / 2 -
+                windowHeight / 2;
+
+            // Scroll to the calculated position
+            window.scrollTo({
+                top: scrollPosition,
+                behavior: "smooth", // Use 'auto' for instant scrolling without smooth animation
+            });
+        }
+    };
+    useEffect(() => {
+        scrollToCenter();
+    }, [isCurrent]);
 
     useEffect(() => {
         isCurrent && setCurrentSong(song);
@@ -31,7 +62,9 @@ const PlaylistCard = ({
             onClick={() => {
                 setCurrentSong(song);
                 setCurrentIndex(index);
+                scrollToCenter();
             }}
+            ref={divRef}
             className={`${
                 isCurrent ? " bg-[#282828]" : " bg-secDark"
             } relative group w-full flex items-start gap-1 lg:gap-3 justify-center flex-row rounded-md snap-center p-1 md:p-2 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]`}

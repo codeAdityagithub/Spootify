@@ -12,8 +12,10 @@ app.use(
 );
 
 app.get("/songs", async (req, res) => {
+    const page = Number(req.query.page);
     try {
-        const results = await ncs.getSongs();
+        const results = await ncs.getSongs(!isNaN(page) ? page : 0);
+        // console.log("fetched");
         return res.status(200).json({ results });
     } catch (error) {
         return res.status(404);
@@ -23,7 +25,6 @@ app.get("/songs", async (req, res) => {
 app.get("/search", async (req, res) => {
     try {
         const { query, genre, mood } = req.query;
-        console.log(req.query);
         const results = await ncs.search(
             {
                 search: query,
@@ -32,7 +33,6 @@ app.get("/search", async (req, res) => {
             },
             0
         );
-        console.log("fetched");
         return res.status(200).json({ results });
     } catch (error) {
         return res.status(404);
@@ -42,13 +42,13 @@ app.get("/search", async (req, res) => {
 app.get("/songs/:genre", async (req, res) => {
     try {
         const genre = req.params.genre;
+        const page = Number(req.query.page);
         const results = await ncs.search(
             {
                 genre: genre,
             },
-            0
+            page
         );
-        // console.log("fetched");
         return res.status(200).json({ results });
     } catch (error) {
         return res.status(404);

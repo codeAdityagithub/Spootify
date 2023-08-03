@@ -5,6 +5,7 @@ import { Song } from "../types";
 import useSWR from "swr";
 import PlaylistCard from "../components/card/PlaylistCard";
 import SearchCard from "../components/card/SearchCard";
+import { Genre } from "../enums";
 
 type Props = {};
 
@@ -30,8 +31,12 @@ const Search = (props: Props) => {
     songs = data && data.results;
 
     useEffect(() => {
-        console.log(genre);
-        console.log(songs?.filter((song) => song.genre === "Bass"));
+        if (!songs) return;
+        // console.log(Genre[Number(genre)]);
+        songs?.filter((song) => {
+            if (song.genre.replace(" ", "") === Genre[Number(genre)])
+                return song;
+        });
     }, [genre, mood]);
 
     return (
@@ -41,10 +46,21 @@ const Search = (props: Props) => {
                     No songs found 😓
                 </div>
             )}
-            {songs &&
-                songs.map((song, index) => (
-                    <SearchCard key={index} song={song} />
-                ))}
+            {songs && genre === ""
+                ? songs.map((song, index) => (
+                      <SearchCard key={index} song={song} />
+                  ))
+                : songs
+                      ?.filter((song) => {
+                          if (
+                              song.genre.replace(" ", "") ===
+                              Genre[Number(genre)]
+                          )
+                              return song;
+                      })
+                      .map((song, index) => (
+                          <SearchCard key={index} song={song} />
+                      ))}
         </div>
     );
 };
