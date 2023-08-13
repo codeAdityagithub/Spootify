@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 
-import useSWR from "swr";
-
 import { useParams } from "react-router-dom";
 
 import { Song } from "../types";
@@ -15,9 +13,12 @@ import { PlaylistContext } from "../context/PlaylistContext";
 
 type Props = {};
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 const Playlist = ({}: Props) => {
     const { playlistId } = useParams();
-    const { currentSong, setCurrentSong } = useContext(SongContext);
+    const { currentSong } = useContext(SongContext);
     const {
         currentIndex,
         setCurrentIndex,
@@ -26,7 +27,6 @@ const Playlist = ({}: Props) => {
         playlist,
         playlistId: p_id,
     } = useContext(PlaylistContext);
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const [songs, setSongs] = useState<Song[]>([]);
     const [page, setPage] = useState(1);
@@ -37,18 +37,24 @@ const Playlist = ({}: Props) => {
     if (playlistId !== "0") {
         playlistName = Genre[Number(playlistId)];
     }
-    // let songs: Song[] = [];
-    const { data, error, isLoading, mutate } = useSWR(
-        `http://localhost:8000/songs${
-            playlistId === "0" ? `` : `/${playlistId}`
-        }`,
-        fetcher,
-        {
-            revalidateIfStale: false,
-            revalidateOnReconnect: false,
-            revalidateOnFocus: false,
-        }
-    );
+
+    const { data } = useQuery({
+        queryKey: [
+            playlistId !== "0" ? "songByGenre" : "latestSongs",
+            playlistId,
+        ],
+        queryFn: async () => {
+            const data = await axios
+                .get(
+                    `http://localhost:8000/songs${
+                        playlistId === "0" ? `` : `/${playlistId}`
+                    }`
+                )
+                .then((res) => res.data);
+            // console.log(data);
+            return data;
+        },
+    });
 
     // songs = data && data.results;
 
@@ -86,18 +92,15 @@ const Playlist = ({}: Props) => {
                 }
             });
     };
-    const updatePlaylist = () => {
-        console.log(songs);
-    };
 
     let color: Color;
     color = currentSong !== "" ? currentSong.tags[1].color : null!;
 
     return (
-        <div className="w-full pb-[180px] md:pb-[120px]">
+        <div className="w-full pb-[20px]">
             {/* top image */}
             <div
-                className={`w-full h-[250px] flex items-end justify-start relative mb-2 overflow-hidden`}
+                className={`w-full h-[350px] flex items-end justify-start relative mb-2 overflow-hidden`}
                 style={{
                     background: `linear-gradient(rgba(${color ? color.r : 0},${
                         color ? color.g : 0

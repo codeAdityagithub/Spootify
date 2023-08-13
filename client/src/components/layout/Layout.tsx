@@ -6,18 +6,31 @@ import SongContextProvider from "../../context/SongContext";
 import PlaylistContextProvider from "../../context/PlaylistContext";
 import SearchBar from "../searchbar/SearchBar";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Sidebar from "../sidebar/Sidebar";
+
+const queryClient = new QueryClient({
+    defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
+});
+
 const Layout = () => {
     return (
-        <SongContextProvider>
-            <div className="w-full h-min min-h-screen  bg-baseDark no-scrollbar">
+        <QueryClientProvider client={queryClient}>
+            <SongContextProvider>
                 <PlaylistContextProvider>
-                    {/* search bar */}
-                    <SearchBar />
-                    <Outlet />
-                    <Player />
+                    <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
+                        {/* search bar */}
+                        {/* <SearchBar /> */}
+                        <Sidebar>
+                            <Outlet />
+                            <Player />
+                        </Sidebar>
+                    </div>
                 </PlaylistContextProvider>
-            </div>
-        </SongContextProvider>
+            </SongContextProvider>
+            <ReactQueryDevtools />
+        </QueryClientProvider>
     );
 };
 

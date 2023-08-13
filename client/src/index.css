@@ -10,15 +10,11 @@
         display: none;
     }
 
-    .player-base-color {
-        background: linear-gradient(0deg, #00000071, rgba(0, 0, 0, 0.1));
-        position: relative;
-    }
     .player-base-color::after {
         content: "";
         position: absolute;
         inset: 0;
-        background-color: rgb(88 0 0);
+        background-color: rgba(0, 0, 0, 0.5);
         z-index: -10;
     }
     .imageloaded {

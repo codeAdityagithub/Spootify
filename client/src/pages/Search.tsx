@@ -1,32 +1,47 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Song } from "../types";
 
-import useSWR from "swr";
-import PlaylistCard from "../components/card/PlaylistCard";
 import SearchCard from "../components/card/SearchCard";
 import { Genre } from "../enums";
 
-type Props = {};
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-const Search = (props: Props) => {
+const Search = () => {
     let [searchParams] = useSearchParams();
     const genre = searchParams.get("genre");
     const mood = searchParams.get("mood");
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     let songs: Song[];
-    const { data, error, isLoading } = useSWR(
-        `http://localhost:8000/search?query=${searchParams.get(
-            "query"
-        )}&genre=&mood=`,
-        fetcher,
-        {
-            revalidateIfStale: true,
-            revalidateOnReconnect: false,
-            revalidateOnFocus: false,
-        }
-    );
+    // const { data, error, isLoading } = useSWR(
+    //     `http://localhost:8000/search?query=${searchParams.get(
+    //         "query"
+    //     )}&genre=&mood=`,
+    //     fetcher,
+    //     {
+    //         revalidateIfStale: true,
+    //         revalidateOnReconnect: false,
+    //         revalidateOnFocus: false,
+    //     }
+    // );
+    const { data } = useQuery({
+        queryKey: ["search", searchParams.get("query")],
+        queryFn: async ({ signal }) => {
+            const data = await axios
+                .get(
+                    `http://localhost:8000/search?query=${searchParams.get(
+                        "query"
+                    )}&genre=&mood=`,
+                    { signal }
+                )
+                .then((res) => res.data);
+            // console.log(data);
+            return data;
+        },
+        staleTime: 1000,
+        enabled: Boolean(searchParams.get("query")),
+    });
 
     songs = data && data.results;
 

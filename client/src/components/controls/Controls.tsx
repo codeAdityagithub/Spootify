@@ -3,10 +3,11 @@ import { useRef } from "react";
 
 import { PlaylistContext } from "../../context/PlaylistContext";
 
-import { BsFillPlayFill } from "react-icons/bs";
-import { BsFillPauseFill } from "react-icons/bs";
-import { BiSkipNext } from "react-icons/bi";
-import { BiSkipPrevious } from "react-icons/bi";
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
+import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
+import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
+
 import { SongContext } from "../../context/SongContext";
 
 const Controls = ({ audioSrc }: { audioSrc: string }) => {
@@ -96,13 +97,13 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                         }`}
                         onClick={handlePrev}
                     >
-                        <BiSkipPrevious size={35} />
+                        <SkipPreviousRoundedIcon fontSize="large" />
                     </div>
                     <div className="controls-icon" onClick={playPause}>
                         {isPlaying ? (
-                            <BsFillPauseFill size={35} />
+                            <PauseRoundedIcon fontSize="large" />
                         ) : (
-                            <BsFillPlayFill size={35} />
+                            <PlayArrowRoundedIcon fontSize="large" />
                         )}
                     </div>
                     <div
@@ -111,7 +112,7 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                         }`}
                         onClick={handleEnd}
                     >
-                        <BiSkipNext size={35} />
+                        <SkipNextRoundedIcon fontSize="large" />
                     </div>
                 </div>
 

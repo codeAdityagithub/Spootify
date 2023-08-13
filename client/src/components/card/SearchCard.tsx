@@ -1,4 +1,4 @@
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext } from "react";
 
 import { Song } from "../../types";
 import { SongContext } from "../../context/SongContext";

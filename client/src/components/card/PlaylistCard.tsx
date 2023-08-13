@@ -32,7 +32,7 @@ const PlaylistCard = ({
             const elementRect = element.getBoundingClientRect();
             const elementHeight = elementRect.height;
             const windowHeight = window.innerHeight;
-            const scrollY = window.scrollY || window.pageYOffset;
+            const scrollY = window.scrollY || window.scrollY;
 
             // Calculate the position to scroll to (center of the screen)
             const scrollPosition =

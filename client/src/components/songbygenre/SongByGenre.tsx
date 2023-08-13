@@ -1,7 +1,6 @@
 import { useContext } from "react";
 
 // import axios from "axios";
-import useSWR from "swr";
 
 import { useInView } from "react-intersection-observer";
 
@@ -12,6 +11,9 @@ import CardNotLoaded from "../cardnotloaded/CardNotLoaded";
 import { PlaylistContext } from "../../context/PlaylistContext";
 // import { SongContext } from "../../context/SongContext";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 const SongByGenre = ({ genre }: { genre: string }) => {
     const { ref, inView } = useInView({
         triggerOnce: true,
@@ -21,17 +23,17 @@ const SongByGenre = ({ genre }: { genre: string }) => {
         useContext(PlaylistContext);
     let songs: Song[];
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-    const { data, error } = useSWR(
-        inView ? `http://localhost:8000/songs/${genre}` : null,
-        fetcher,
-        {
-            revalidateIfStale: false,
-            revalidateOnReconnect: false,
-            revalidateOnFocus: false,
-        }
-    );
+    const { data, isError, isLoading } = useQuery({
+        queryKey: ["songByGenre", genre],
+        queryFn: async () => {
+            const data = await axios
+                .get(`http://localhost:8000/songs/${genre}`)
+                .then((res) => res.data);
+            // console.log(data);
+            return data;
+        },
+        enabled: inView,
+    });
 
     songs = data && data.results;
     const handleSetPlaylist = (index: number) => {
@@ -43,10 +45,10 @@ const SongByGenre = ({ genre }: { genre: string }) => {
     return (
         <div
             ref={ref}
-            className="flex flex-row overflow-auto gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x"
+            className="flex flex-row overflow-auto pl-2 gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x"
         >
-            {error && <p>Failed to get Songs! Make sure you have internet</p>}
-            {!songs && !error && <CardNotLoaded />}
+            {isError && <p>Failed to get Songs! Make sure you have internet</p>}
+            {isLoading && !isError && <CardNotLoaded />}
             {songs &&
                 songs.map((song, index) => (
                     <MusicCard

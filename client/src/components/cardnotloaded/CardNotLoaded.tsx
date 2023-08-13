@@ -1,4 +1,4 @@
-import { ImSpinner9 } from "react-icons/im";
+import LoopIcon from "@mui/icons-material/Loop";
 
 const CardNotLoaded = () => {
     return [1, 2, 3, 4, 5].map((idx) => (
@@ -8,7 +8,7 @@ const CardNotLoaded = () => {
         >
             <div className="relative">
                 <div className="w-[150px] h-[150px] flex items-center justify-center animate-spin">
-                    <ImSpinner9 size={40} />
+                    <LoopIcon fontSize="large" />
                 </div>
             </div>
             <div className="w-full capitalize pt-2 px-2 lg:px-0 line-clamp-1 lg:line-clamp-1 font-semibold mb-2 text-textDark-100">

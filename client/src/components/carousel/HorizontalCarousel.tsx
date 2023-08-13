@@ -15,12 +15,12 @@ const HorizontalCarousel = ({
     const { setCurrentIndex, playlistId: id } = useContext(PlaylistContext);
 
     return (
-        <div className="w-screen text-gray-200 m-2">
+        <div className="w-full text-gray-200">
             <div className="flex flex-row items-center mb-4">
-                <div className="text-lg font-bold md:text-xl">{title}</div>
+                <div className="text-lg pl-2 font-bold md:text-xl">{title}</div>
                 {playlistId ? (
                     <Link
-                        className="ml-auto mr-8 underline cursor-pointer"
+                        className="ml-auto pr-5 underline cursor-pointer"
                         to={`/playlist/${playlistId}`}
                         onClick={() =>
                             id !== Number(playlistId) && setCurrentIndex(0)

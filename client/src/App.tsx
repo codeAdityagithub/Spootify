@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 
 const Home = lazy(() => import("./pages/Home"));
 const Playlist = lazy(() => import("./pages/Playlist"));
+const Search = lazy(() => import("./pages/Search"));
 
 import {
     createBrowserRouter,
@@ -10,7 +11,6 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Search from "./pages/Search";
 
 const router = createBrowserRouter(
     createRoutesFromElements(

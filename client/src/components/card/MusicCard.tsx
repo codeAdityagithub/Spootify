@@ -1,6 +1,6 @@
 import { useRef, useContext } from "react";
-import { BsFillPlayFill } from "react-icons/bs";
-// import { ImFileMusic } from "react-icons/im";
+
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 
 import { Song } from "../../types";
 import { SongContext } from "../../context/SongContext";
@@ -31,7 +31,7 @@ const MusicCard = ({
                 handleClick();
                 handleSetPlaylist(index);
             }}
-            className="group min-w-[181px] max-w-[181px] flex items-center justify-center flex-col rounded-md snap-center bg-secDark p-1 md:p-2 lg:p-4 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]"
+            className="group min-w-[181px] max-w-[181px] flex items-center justify-start flex-col rounded-md snap-center bg-secDark p-1 md:p-2 lg:p-4 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]"
         >
             <div className="relative">
                 <img
@@ -46,7 +46,7 @@ const MusicCard = ({
                     onClick={() => setCurrentSong(song)}
                     className="hidden lg:absolute w-12 h-12 rounded-full bg-green-500 hover:bg-green-400 text-baseDark right-2 bottom-0 lg:flex lg:items-center lg:justify-center lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:bottom-2 transition-all ease-in-out duration-300 "
                 >
-                    <BsFillPlayFill size={30} className="translate-x-[1px]" />
+                    <PlayArrowRoundedIcon fontSize="large" />
                 </span>
             </div>
             <div className="w-full capitalize pt-2 px-2 lg:px-0 line-clamp-1 lg:line-clamp-1 font-semibold mb-2 text-textDark-100">

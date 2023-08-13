@@ -1,38 +1,38 @@
-import { GoHomeFill } from "react-icons/go";
-import { BsSearch } from "react-icons/bs";
-import { BiLibrary } from "react-icons/bi";
-import { BsSpotify } from "react-icons/bs";
-import React, { ReactNode, useState } from "react";
+// import { GoHomeFill } from "react-icons/go/index";
+// import { BsSearch } from "react-icons/bs/index";
+// import { BiLibrary } from "react-icons/bi/index";
+// import { BsSpotify } from "react-icons/bs/index";
+// import React, { ReactNode, useState } from "react";
 
-type ItemProps = {
-    icon: ReactNode;
-    text: string;
-};
+// type ItemProps = {
+//     icon: ReactNode;
+//     text: string;
+// };
 
-const items: ItemProps[] = [
-    {
-        icon: <GoHomeFill size={25} />,
-        text: "Home",
-    },
-    {
-        icon: <BsSearch size={25} />,
-        text: "Search",
-    },
-    {
-        icon: <BiLibrary size={25} />,
-        text: "Your Library",
-    },
-    {
-        icon: <BsSpotify size={25} />,
-        text: "GetApp",
-    },
-];
+// const items: ItemProps[] = [
+//     {
+//         icon: <GoHomeFill size={25} />,
+//         text: "Home",
+//     },
+//     {
+//         icon: <BsSearch size={25} />,
+//         text: "Search",
+//     },
+//     {
+//         icon: <BiLibrary size={25} />,
+//         text: "Your Library",
+//     },
+//     {
+//         icon: <BsSpotify size={25} />,
+//         text: "GetApp",
+//     },
+// ];
 
 const NavItem = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
+    // const [activeIndex, setActiveIndex] = useState(0);
     return (
         <div className="bg-black flex flex-row w-full">
-            {items.map((item: ItemProps, index: number): React.ReactNode => {
+            {/* {items.map((item: ItemProps, index: number): React.ReactNode => {
                 return (
                     <div
                         key={index}
@@ -47,8 +47,8 @@ const NavItem = () => {
                         {item.icon}
                         <p className="text-xs">{item.text}</p>
                     </div>
-                );
-            })}
+                ); */}
+            {/* })} */}
         </div>
     );
 };

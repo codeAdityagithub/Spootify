@@ -3,7 +3,7 @@ import { Mood, Genre } from "../../enums";
 
 import { useNavigate } from "react-router-dom";
 
-import { BsSearch } from "react-icons/bs";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 interface formDataType {
     query: string;
@@ -61,9 +61,9 @@ const SearchBar = () => {
                     className="w-full md:w-64 px-4 py-2 text-sm bg-secDark text-textDark-300 placeholder:text-textDark-400 border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
                 />
                 <button type="submit">
-                    <BsSearch
-                        className="text-textDark-200 absolute right-2 top-0 translate-y-1/2"
-                        size={20}
+                    <SearchRoundedIcon
+                        className="text-textDark-200 absolute right-1 top-0 translate-y-[7px]"
+                        fontSize="medium"
                         onClick={() => console.log("hi")}
                     />
                 </button>

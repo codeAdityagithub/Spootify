@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import { useContext } from "react";
 // import { useState } from "react";
 
@@ -15,12 +14,21 @@ import SongByGenre from "../components/songbygenre/SongByGenre";
 import CardNotLoaded from "../components/cardnotloaded/CardNotLoaded";
 import { PlaylistContext } from "../context/PlaylistContext";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 const Home = (): React.ReactNode => {
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    const { data, error, isLoading } = useSWR(
-        "http://localhost:8000/songs",
-        fetcher
-    );
+    const { data, isError, isLoading } = useQuery({
+        queryKey: ["latestSongs", "0"],
+        queryFn: async () => {
+            const data = await axios
+                .get("http://localhost:8000/songs")
+                .then((res) => res.data);
+            // console.log(data);
+            return data;
+        },
+    });
+
     const { setCurrentIndex, setPlaylist, setPlaylistId } =
         useContext(PlaylistContext);
     let latestSongs: Song[];
@@ -36,21 +44,21 @@ const Home = (): React.ReactNode => {
 
     const genres = Object.keys(Genre).filter((key) => !isNaN(Number(key)));
     return (
-        <div className="w-full min-h-screen h-min pb-[150px] relative font-sans no-scrollbar scroll-smooth overflow-x-hidden flex flex-col justify-center items-start box-border">
+        <div className="w-full h-auto overflow-y-auto pt-14 md:pt-4 relative font-sans no-scrollbar scroll-smooth flex flex-col gap-2 justify-center items-start box-border">
             {/* page */}
-            {error && (
+            {isError && (
                 <HorizontalCarousel title="Latest Songs">
                     <p>Failed to get Songs! Make sure you have internet</p>
                 </HorizontalCarousel>
             )}
-            {isLoading && !error && (
+            {isLoading && !isError && (
                 <HorizontalCarousel title="Latest Songs">
                     <CardNotLoaded />
                 </HorizontalCarousel>
             )}
             {data && (
                 <HorizontalCarousel title="Latest Songs" playlistId="0">
-                    <div className="flex flex-row overflow-auto gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
+                    <div className="flex flex-row overflow-auto pl-2 gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
                         {latestSongs.map((song, index) => (
                             <MusicCard
                                 key={index}
