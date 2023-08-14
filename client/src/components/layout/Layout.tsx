@@ -21,8 +21,8 @@ const Layout = () => {
                 <PlaylistContextProvider>
                     <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
                         {/* search bar */}
-                        {/* <SearchBar /> */}
                         <Sidebar>
+                            <SearchBar />
                             <Outlet />
                             <Player />
                         </Sidebar>

@@ -8,13 +8,26 @@ import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
 
+import Forward5Icon from "@mui/icons-material/Forward5";
+import Replay5Icon from "@mui/icons-material/Replay5";
+
 import { SongContext } from "../../context/SongContext";
+
+enum speedRate {
+    "Normal" = 1,
+    "1.25x" = 1.25,
+    "1.5x" = 1.5,
+    "1.75x" = 1.75,
+    "2x" = 2,
+}
+const speedVal = ["Normal", "1.25x", "1.5x", "1.75x", "2x"];
 
 const Controls = ({ audioSrc }: { audioSrc: string }) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [duration, setDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState(0);
+    const [currentSpeed, setCurrentSpeed] = useState<number>(0);
 
     const { currentIndex, setCurrentIndex, playlist, playlistId } =
         useContext(PlaylistContext);
@@ -65,6 +78,39 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
         }
     };
 
+    const setSpeed = (
+        e:
+            | React.SyntheticEvent<HTMLAudioElement, Event>
+            | React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+        if (e.type == "click") {
+            setCurrentSpeed((prev) => (prev + 1) % speedVal.length);
+        }
+        if (audioRef.current) {
+            audioRef.current.playbackRate =
+                1 +
+                0.25 *
+                    ((e.type == "click" ? currentSpeed + 1 : currentSpeed) %
+                        speedVal.length);
+        }
+    };
+
+    const skipForward = () => {
+        if (audioRef.current) {
+            const time = currentTime + 5;
+            audioRef.current.currentTime = time;
+            setCurrentTime(time);
+        }
+    };
+
+    const skipBack = () => {
+        if (audioRef.current) {
+            const time = currentTime - 5;
+            audioRef.current.currentTime = time;
+            setCurrentTime(time);
+        }
+    };
+
     const formatTime = (time: number): string => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
@@ -82,6 +128,9 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                 // controls
                 onTimeUpdate={updateTime}
                 onLoadedMetadata={updateDuration}
+                onLoadStart={(e) => {
+                    setSpeed(e);
+                }}
                 hidden
                 autoPlay={true}
                 onEnded={handleEnd}
@@ -99,6 +148,14 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                     >
                         <SkipPreviousRoundedIcon fontSize="large" />
                     </div>
+                    <div
+                        className={`controls-icon ${
+                            playlistId === -1 ? "text-textDark-400" : ""
+                        }`}
+                        onClick={skipBack}
+                    >
+                        <Replay5Icon fontSize="medium" />
+                    </div>
                     <div className="controls-icon" onClick={playPause}>
                         {isPlaying ? (
                             <PauseRoundedIcon fontSize="large" />
@@ -110,9 +167,23 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                         className={`controls-icon ${
                             playlistId === -1 ? "text-textDark-400" : ""
                         }`}
+                        onClick={skipForward}
+                    >
+                        <Forward5Icon fontSize="medium" />
+                    </div>
+                    <div
+                        className={`controls-icon ${
+                            playlistId === -1 ? "text-textDark-400" : ""
+                        }`}
                         onClick={handleEnd}
                     >
                         <SkipNextRoundedIcon fontSize="large" />
+                    </div>
+                    <div
+                        className={`controls-speed w-12 text-xs rounded-lg text-center py-2`}
+                        onClick={(e) => setSpeed(e)}
+                    >
+                        <span>{speedVal[currentSpeed]}</span>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 import { Song } from "../types";
 
 import SearchCard from "../components/card/SearchCard";
@@ -8,10 +8,16 @@ import { Genre } from "../enums";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const Search = () => {
-    let [searchParams] = useSearchParams();
-    const genre = searchParams.get("genre");
-    const mood = searchParams.get("mood");
+interface searchParams {
+    query: string;
+    genre: string;
+    mood: string;
+}
+
+const Search = ({ query, genre, mood }: searchParams) => {
+    // let [searchParams] = useSearchParams();
+    // const genre = searchParams.get("genre");
+    // const mood = searchParams.get("mood");
 
     let songs: Song[];
     // const { data, error, isLoading } = useSWR(
@@ -26,13 +32,11 @@ const Search = () => {
     //     }
     // );
     const { data } = useQuery({
-        queryKey: ["search", searchParams.get("query")],
+        queryKey: ["search", query],
         queryFn: async ({ signal }) => {
             const data = await axios
                 .get(
-                    `http://localhost:8000/search?query=${searchParams.get(
-                        "query"
-                    )}&genre=&mood=`,
+                    `http://localhost:8000/search?query=${query}&genre=&mood=`,
                     { signal }
                 )
                 .then((res) => res.data);
@@ -40,7 +44,7 @@ const Search = () => {
             return data;
         },
         staleTime: 1000,
-        enabled: Boolean(searchParams.get("query")),
+        enabled: Boolean(query.trim() !== ""),
     });
 
     songs = data && data.results;
@@ -55,7 +59,7 @@ const Search = () => {
     }, [genre, mood]);
 
     return (
-        <div className="pb-[180px] md:pb-[120px]">
+        <div className="">
             {songs && songs.length === 0 && (
                 <div className="text-center text-textDark-200 text-lg">
                     No songs found 😓

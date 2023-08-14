@@ -23,6 +23,11 @@
     .controls-icon {
         cursor: pointer;
     }
+    .controls-speed {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(5px);
+    }
 
     .playlist-shadow {
         box-shadow: 0 0 150px black inset;
