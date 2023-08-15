@@ -93,25 +93,33 @@ const Playlist = ({}: Props) => {
             });
     };
 
-    let color: Color;
-    color = currentSong !== "" ? currentSong.tags[1].color : null!;
+    // let color: Color;
+    // color = currentSong !== "" ? currentSong.tags[1].color : null!;
 
     return (
         <div className="w-full pb-[20px]">
             {/* top image */}
             <div
                 className={`w-full h-[350px] flex items-end justify-start relative mb-2 overflow-hidden`}
-                style={{
-                    background: `linear-gradient(rgba(${color ? color.r : 0},${
-                        color ? color.g : 0
-                    },${color ? color.b : 0},1), rgba(0, 0, 0, 0.1)`,
-                }}
+                // style={{
+                //     background: `linear-gradient(rgba(${color ? color.r : 0},${
+                //         color ? color.g : 0
+                //     },${color ? color.b : 0},1), rgba(0, 0, 0, 0.1)`,
+                // }}
             >
                 {currentSong !== "" ? (
                     <img
                         src={currentSong.coverUrl}
-                        alt="Song"
-                        className="absolute top-0 left-1/2 -translate-x-1/2 "
+                        alt={currentSong.name}
+                        className="absolute self-stretch w-full top-1/2 -translate-y-1/2 blur-sm select-none"
+                        // className="absolute top-0 left-1/2 -translate-x-1/2 "
+                    />
+                ) : null}
+                {currentSong !== "" ? (
+                    <img
+                        src={currentSong.coverUrl}
+                        alt={currentSong.name}
+                        className="absolute top-2 left-1/2 -translate-x-1/2 select-none"
                     />
                 ) : null}
                 <div className="w-full text-textDark-200 text-xl font-extrabold p-4 relative">

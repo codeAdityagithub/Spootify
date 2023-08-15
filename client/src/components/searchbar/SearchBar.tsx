@@ -48,9 +48,9 @@ const SearchBar = () => {
     };
 
     return (
-        <div>
+        <div className="search flex flex-col h-min min-h-full">
             <form
-                className="relative w-full p-4 flex flex-col md:flex-row gap-2 items-center justify-start"
+                className="w-full p-4 flex flex-col md:flex-row gap-2 items-center justify-start z-10"
                 onSubmit={(e) => handleSubmit(e)}
             >
                 <div className="w-full md:w-64 mx-4 relative">

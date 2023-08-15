@@ -59,7 +59,7 @@ const Search = ({ query, genre, mood }: searchParams) => {
     }, [genre, mood]);
 
     return (
-        <div className="">
+        <div className="results mb-2 ">
             {songs && songs.length === 0 && (
                 <div className="text-center text-textDark-200 text-lg">
                     No songs found 😓

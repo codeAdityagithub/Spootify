@@ -40,7 +40,7 @@ const Player = () => {
                         <img
                             src={currentSong.coverUrl}
                             alt=""
-                            className="w-20 aspect-square"
+                            className="w-16 sm:w-20 aspect-square"
                         />
                         <div className="flex flex-col min-w-[150px] line-clamp-1">
                             <span className="font-md font-semibold p-1">
@@ -67,9 +67,8 @@ const Player = () => {
                         audioSrc={currentSong.download.regular.toString()}
                     />
                 </div>
-            ) : (
-                <p className="text-center text-lg">Play a song to see</p>
-            )}
+            ) : // <p className="text-center text-lg">Play a song to see</p>
+            null}
         </div>
     );
 };

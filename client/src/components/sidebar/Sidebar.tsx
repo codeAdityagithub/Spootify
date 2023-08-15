@@ -3,6 +3,10 @@ import { useState } from "react";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { Divider } from "@mui/material";
+import { Link } from "react-router-dom";
 
 type State = "open" | "closed";
 
@@ -21,7 +25,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             <button
                 type="button"
                 onClick={handleState}
-                className="inline-flex absolute top-0 z-10 items-center p-2 mt-2 ml-3 text-sm bg-textDark-800 text-textDark-400 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className="inline-flex absolute top-0 z-20 items-center p-2 mt-2 ml-3 text-sm bg-textDark-800 text-textDark-400 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             >
                 <MenuOpenIcon />
             </button>
@@ -30,7 +34,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                 className={`absolute border-r border-textDark-800 top-0 left-0 z-40 w-64 h-screen ease-linear transition-all${
                     open()
                         ? " -translate-x-0 "
-                        : " -translate-x-full md:-translate-x-32 md:w-40 "
+                        : " -translate-x-full md:-translate-x-0 md:w-20 "
                 }`}
             >
                 {/* CLOSE ICON */}
@@ -56,90 +60,44 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                 <div className="h-full px-3 py-4 overflow-y-auto bg-secDark">
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            <Link
+                                to="/"
+                                className="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
-                                <span className="ml-3">Dashboard</span>
-                            </a>
+                                <HomeRoundedIcon
+                                    fontSize={`${open() ? "medium" : "large"}`}
+                                />
+                                <span
+                                    className={`flex-1 ml-3 whitespace-nowrap ${
+                                        open() ? "" : "md:hidden"
+                                    }`}
+                                >
+                                    Home
+                                </span>
+                            </Link>
                         </li>
                         <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            <Link
+                                to="/search"
+                                className="flex items-center justify-center  p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
                                 {/* svg */}
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Kanban
+                                <SearchRoundedIcon
+                                    fontSize={`${open() ? "medium" : "large"}`}
+                                />
+                                <span
+                                    className={`flex-1 ml-3 whitespace-nowrap ${
+                                        open() ? "" : "md:hidden"
+                                    }`}
+                                >
+                                    Search
                                 </span>
-                                <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     Pro
-                                </span>
-                            </a>
+                                </span> */}
+                            </Link>
                         </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                {/* svg */}
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Inbox
-                                </span>
-                                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                                    3
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                {/* svg */}
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Users
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                {/* svg */}
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Products
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                {/* svg */}
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Sign In
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                {/* svg */}
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Sign Up
-                                </span>
-                            </a>
-                        </li>
+                        <li className="w-full h-[1px] bg-textDark-400"></li>
                     </ul>
                 </div>
             </aside>
@@ -148,7 +106,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                 className={`w-full${
                     open()
                         ? " md:w-[calc(100%-256px)] md:ml-64 "
-                        : " md:w-[calc(100%-48px)] md:ml-12 "
+                        : " md:w-[calc(100%-48px)] md:ml-24 "
                 }relative h-screen overflow-y-auto no-scrollbar transition-all ease-linear`}
             >
                 {children}
