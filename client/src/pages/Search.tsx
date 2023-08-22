@@ -36,7 +36,9 @@ const Search = ({ query, genre, mood }: searchParams) => {
         queryFn: async ({ signal }) => {
             const data = await axios
                 .get(
-                    `http://localhost:8000/search?query=${query}&genre=&mood=`,
+                    `${
+                        import.meta.env.VITE_API_URL
+                    }/search?query=${query}&genre=&mood=`,
                     { signal }
                 )
                 .then((res) => res.data);
@@ -59,7 +61,7 @@ const Search = ({ query, genre, mood }: searchParams) => {
     }, [genre, mood]);
 
     return (
-        <div className="results mb-2 ">
+        <div className="results mb-2 px-4 flex flex-col gap-2">
             {songs && songs.length === 0 && (
                 <div className="text-center text-textDark-200 text-lg">
                     No songs found 😓

@@ -27,7 +27,7 @@ const SongByGenre = ({ genre }: { genre: string }) => {
         queryKey: ["songByGenre", genre],
         queryFn: async () => {
             const data = await axios
-                .get(`http://localhost:8000/songs/${genre}`)
+                .get(`${import.meta.env.VITE_API_URL}/songs/${genre}`)
                 .then((res) => res.data);
             // console.log(data);
             return data;

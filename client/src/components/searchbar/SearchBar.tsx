@@ -50,17 +50,18 @@ const SearchBar = () => {
     return (
         <div className="search flex flex-col h-min min-h-full">
             <form
-                className="w-full p-4 flex flex-col md:flex-row gap-2 items-center justify-start z-10"
+                className="w-full p-4 flex flex-col lg:flex-row gap-2 items-center sm:items-start justify-start z-10 pt-12 md:p-4"
                 onSubmit={(e) => handleSubmit(e)}
             >
-                <div className="w-full md:w-64 mx-4 relative">
+                {/* search query */}
+                <div className="w-full sm:w-96 lg:w-64 mx-4 relative">
                     <input
                         type="text"
                         value={formData.query}
                         name="query"
                         onChange={(e) => handleChange(e)}
                         placeholder="Search..."
-                        className="w-full md:w-64 px-4 py-2 text-sm bg-secDark text-textDark-300 placeholder:text-textDark-400 border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
+                        className="w-full sm:w-96 lg:w-64 px-4 py-2 text-sm bg-secDark text-textDark-300 placeholder:text-textDark-400 border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
                     />
                     <button type="submit">
                         <SearchRoundedIcon
@@ -70,11 +71,12 @@ const SearchBar = () => {
                         />
                     </button>
                 </div>
+                {/* genre filter */}
                 <select
                     value={formData.genre}
                     name="genre"
                     onChange={(e) => handleChange(e)}
-                    className="w-full md:w-64 px-4 py-2 mx-4 text-sm bg-secDark text-textDark-300  border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
+                    className="w-full sm:w-96 lg:w-64 px-4 py-2 mx-4 text-sm bg-secDark text-textDark-300  border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
                 >
                     <option value={""}>Search Genre...</option>
                     {genres.map((key) => (
@@ -87,7 +89,7 @@ const SearchBar = () => {
                     value={formData.mood}
                     name="mood"
                     onChange={(e) => handleChange(e)}
-                    className="w-full md:w-64 px-4 py-2 mx-4 text-sm bg-secDark text-textDark-300  border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
+                    className="w-full sm:w-96 lg:w-64 px-4 py-2 mx-4 text-sm bg-secDark text-textDark-300  border border-textDark-500 rounded-2xl focus:outline-none focus:ring focus:border-blue-300"
                 >
                     <option value={""}>Search Mood...</option>
                     {moods.map((key) => (

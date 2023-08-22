@@ -13,13 +13,6 @@ import Replay5Icon from "@mui/icons-material/Replay5";
 
 import { SongContext } from "../../context/SongContext";
 
-enum speedRate {
-    "Normal" = 1,
-    "1.25x" = 1.25,
-    "1.5x" = 1.5,
-    "1.75x" = 1.75,
-    "2x" = 2,
-}
 const speedVal = ["Normal", "1.25x", "1.5x", "1.75x", "2x"];
 
 const Controls = ({ audioSrc }: { audioSrc: string }) => {
@@ -124,7 +117,9 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
             {/* main audio */}
             <audio
                 ref={audioRef}
-                src={`http://localhost:8000/stream?url=${audioSrc}`}
+                src={`${
+                    import.meta.env.VITE_STREAM_URL
+                }/stream?url=${audioSrc}`}
                 // controls
                 onTimeUpdate={updateTime}
                 onLoadedMetadata={updateDuration}
@@ -148,12 +143,7 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                     >
                         <SkipPreviousRoundedIcon fontSize="large" />
                     </div>
-                    <div
-                        className={`controls-icon ${
-                            playlistId === -1 ? "text-textDark-400" : ""
-                        }`}
-                        onClick={skipBack}
-                    >
+                    <div className={`controls-icon`} onClick={skipBack}>
                         <Replay5Icon fontSize="medium" />
                     </div>
                     <div className="controls-icon" onClick={playPause}>
@@ -163,12 +153,7 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                             <PlayArrowRoundedIcon fontSize="large" />
                         )}
                     </div>
-                    <div
-                        className={`controls-icon ${
-                            playlistId === -1 ? "text-textDark-400" : ""
-                        }`}
-                        onClick={skipForward}
-                    >
+                    <div className={`controls-icon`} onClick={skipForward}>
                         <Forward5Icon fontSize="medium" />
                     </div>
                     <div

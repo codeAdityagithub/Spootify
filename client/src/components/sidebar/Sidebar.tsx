@@ -5,8 +5,9 @@ import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { Divider } from "@mui/material";
+
 import { Link } from "react-router-dom";
+import YourPlaylists from "../yourplaylist/YourPlaylists";
 
 type State = "open" | "closed";
 
@@ -62,7 +63,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         <li>
                             <Link
                                 to="/"
-                                className="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                className="flex items-center justify-center p-2 text-textDark-200 rounded-lg hover:bg-gray-700 group"
                             >
                                 <HomeRoundedIcon
                                     fontSize={`${open() ? "medium" : "large"}`}
@@ -79,7 +80,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         <li>
                             <Link
                                 to="/search"
-                                className="flex items-center justify-center  p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                className="flex items-center justify-center  p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
                             >
                                 {/* svg */}
                                 <SearchRoundedIcon
@@ -92,13 +93,16 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                                 >
                                     Search
                                 </span>
-                                {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full bg-gray-700 dark:text-gray-300">
                                     Pro
                                 </span> */}
                             </Link>
                         </li>
                         <li className="w-full h-[1px] bg-textDark-400"></li>
                     </ul>
+
+                    {/* Playlist */}
+                    <YourPlaylists open={open} />
                 </div>
             </aside>
 

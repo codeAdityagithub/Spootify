@@ -1,7 +1,9 @@
 client/node_modules
 client/.vite/*
+client/.env
 
 api/node_modules
+api/.env
 
 .vscode/*
 !.vscode/extensions.json

@@ -22,7 +22,7 @@ const Home = (): React.ReactNode => {
         queryKey: ["latestSongs", "0"],
         queryFn: async () => {
             const data = await axios
-                .get("http://localhost:8000/songs")
+                .get(`${import.meta.env.VITE_API_URL}/songs`)
                 .then((res) => res.data);
             // console.log(data);
             return data;

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 
 import { Song } from "../types";
 import { Genre } from "../enums";
-import { Color } from "../types";
 
 import PlaylistCard from "../components/card/PlaylistCard";
 import { SongContext } from "../context/SongContext";
@@ -32,6 +31,7 @@ const Playlist = ({}: Props) => {
     const [page, setPage] = useState(1);
 
     const [hasMore, setHasMore] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
 
     let playlistName = "Latest";
     if (playlistId !== "0") {
@@ -46,7 +46,7 @@ const Playlist = ({}: Props) => {
         queryFn: async () => {
             const data = await axios
                 .get(
-                    `http://localhost:8000/songs${
+                    `${import.meta.env.VITE_API_URL}/songs${
                         playlistId === "0" ? `` : `/${playlistId}`
                     }`
                 )
@@ -59,6 +59,8 @@ const Playlist = ({}: Props) => {
     // songs = data && data.results;
 
     useEffect(() => {
+        data &&
+            localStorage.setItem("playlist", JSON.stringify(data.results[0]));
         data &&
             (playlist.length === 0 || p_id !== Number(playlistId)) &&
             setPlaylist(data.results);
@@ -73,8 +75,9 @@ const Playlist = ({}: Props) => {
 
     const addMore = async () => {
         if (!hasMore) return;
+        setLoadingMore(true);
         fetch(
-            `http://localhost:8000/songs${
+            `${import.meta.env.VITE_API_URL}/songs${
                 playlistId !== "0" ? `/${playlistId}` : ""
             }?page=${page}`
         )
@@ -90,6 +93,7 @@ const Playlist = ({}: Props) => {
                         setSongs((prev) => [...prev, ...data.results]);
                     }
                 }
+                setLoadingMore(false);
             });
     };
 
@@ -149,7 +153,8 @@ const Playlist = ({}: Props) => {
                       ))}
                 {hasMore ? (
                     <button
-                        className="button"
+                        disabled={loadingMore}
+                        className="button disabled:text-textDark-500"
                         onClick={() => {
                             setPage((prev) => prev + 1);
                             addMore();
