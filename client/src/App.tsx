@@ -11,6 +11,8 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +20,8 @@ const router = createBrowserRouter(
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<SearchBar />} />
             <Route path="/playlist/:playlistId" element={<Playlist />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
         </Route>
     )
 );

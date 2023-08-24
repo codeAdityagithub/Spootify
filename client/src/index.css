@@ -4,7 +4,7 @@
 
 @layer components {
     .button {
-        @apply p-2 m-1 rounded-lg text-inherit text-textDark-200  border border-blue-300 hover:ring-2 cursor-pointer transition-all;
+        @apply p-2 rounded-lg text-inherit text-textDark-200  border border-blue-300 hover:ring-2 cursor-pointer transition-all;
     }
     .no-scrollbar::-webkit-scrollbar {
         display: none;

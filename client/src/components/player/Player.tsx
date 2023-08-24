@@ -14,8 +14,8 @@ const Player = () => {
     const { currentSong } = useContext(SongContext);
     const { playlistId } = useContext(PlaylistContext);
 
-    let color: Color;
-    color = currentSong !== "" ? currentSong.tags[1].color : null!;
+    let color: Color | null;
+    color = currentSong !== "" ? currentSong.tags[1].color : null;
 
     return (
         <div

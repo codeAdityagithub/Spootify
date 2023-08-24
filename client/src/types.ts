@@ -1,19 +1,19 @@
 export interface Song {
     name: string;
     url: string;
-    date: Date;
-    id: string;
+    date?: Date;
+    id?: string;
     genre: string;
     artists: Artist[];
     coverUrl: string;
-    previewUrl: string;
+    previewUrl?: string;
     tags: Tag[];
     download: Download;
 }
 
 export interface Artist {
     name: string;
-    url: string;
+    url?: string;
 }
 
 export interface Download {
@@ -31,4 +31,13 @@ export interface Color {
     r: number;
     g: number;
     b: number;
+}
+
+export interface UserType {
+    _id: string;
+    username: string;
+    email: string;
+    premiumSubscriber: boolean;
+    accessToken: string;
+    playlists: [Song[]];
 }
