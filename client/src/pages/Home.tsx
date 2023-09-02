@@ -5,6 +5,8 @@ import MusicCard from "../components/card/MusicCard";
 import HorizontalCarousel from "../components/carousel/HorizontalCarousel";
 // import NavItem from "../components/navitem/NavItem";
 // import Player from "../components/player/Player";
+import AddSongDialog from "../components/addsongtolist/AddSongDialog";
+
 import { Song } from "../types";
 
 import { Genre } from "../enums";
@@ -38,14 +40,19 @@ const Home = (): React.ReactNode => {
     // setting latest songs as playlist
     const handleSetLatest = (index: number) => {
         latestSongs && setPlaylist(latestSongs);
-        setPlaylistId(0);
+        setPlaylistId("0");
         setCurrentIndex(index);
     };
 
     const genres = Object.keys(Genre).filter((key) => !isNaN(Number(key)));
     return (
-        <div className="w-full h-auto overflow-y-auto pt-14 md:pt-4 relative font-sans no-scrollbar scroll-smooth flex flex-col gap-2 justify-center items-start box-border">
+        <div
+            id="homeMain"
+            className="w-full h-auto overflow-y-auto pt-14 md:pt-4 relative font-sans no-scrollbar scroll-smooth flex flex-col gap-2 justify-center items-start box-border"
+        >
             {/* page */}
+            <AddSongDialog />
+
             {isError && (
                 <HorizontalCarousel title="Latest Songs">
                     <p>Failed to get Songs! Make sure you have internet</p>

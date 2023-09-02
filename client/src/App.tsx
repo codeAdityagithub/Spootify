@@ -3,6 +3,8 @@ import React, { lazy, Suspense } from "react";
 const Home = lazy(() => import("./pages/Home"));
 const Playlist = lazy(() => import("./pages/Playlist"));
 const SearchBar = lazy(() => import("./components/searchbar/SearchBar"));
+const Register = lazy(() => import("./pages/Register"));
+const Login = lazy(() => import("./pages/Login"));
 
 import {
     createBrowserRouter,
@@ -11,8 +13,8 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+
+import UserPlaylist from "./pages/UserPlaylist";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -20,6 +22,10 @@ const router = createBrowserRouter(
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<SearchBar />} />
             <Route path="/playlist/:playlistId" element={<Playlist />} />
+            <Route
+                path="/userplaylist/:playlistId"
+                element={<UserPlaylist />}
+            />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
         </Route>

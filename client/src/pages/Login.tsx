@@ -7,7 +7,13 @@ import axios from "axios";
 import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
+
+import { useSelector, useDispatch } from "react-redux";
+import { setUserDetails } from "../redux/UserSlice";
+
 import { UserType } from "../types";
+import { AxiosContext } from "../context/AxiosProvider";
+import { RootState } from "../redux/store/Store";
 
 type Props = {};
 
@@ -27,8 +33,10 @@ type mutationType = {
 const loginUser = async (data: userType) => {
     const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/login`,
-        data
+        data,
+        { withCredentials: true }
     );
+    // console.log(res.headers);
     return res.data;
 };
 
@@ -38,15 +46,16 @@ const Login = () => {
         password: "",
     });
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
-    const { setCurrentUser } = useContext(AuthContext);
-
+    // const { setCurrentUser } = useContext(AuthContext);
+    const userState = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch();
+    const { authStatus, setAuthStatus } = useContext(AxiosContext);
     const { mutate, isLoading, isError, error, isSuccess }: mutationType =
         useMutation({
             mutationFn: loginUser,
             onSuccess: (data: UserType) => {
-                setCurrentUser(data);
-                // queryClient.invalidateQueries(["userPlaylists"]);
+                setAuthStatus("authenticated");
+                dispatch(setUserDetails(data));
             },
         });
 
@@ -59,8 +68,10 @@ const Login = () => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
     useEffect(() => {
-        // isSuccess && navigate("/");
+        isSuccess && navigate("/");
     }, [isSuccess]);
+
+    if (authStatus === "authenticated") return navigate("/");
 
     return (
         <div className="w-full h-full overflow-y-auto flex relative font-sans justify-center items-center box-border">
@@ -93,7 +104,7 @@ const Login = () => {
                 </form>
                 {isError ? (
                     <p className="text-red-500 text-sm p-2">
-                        {error.response.data}
+                        {error?.response?.data}
                     </p>
                 ) : null}
                 <Link

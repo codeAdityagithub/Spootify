@@ -11,7 +11,6 @@ const userDefaults: UserType = {
     username: "",
     email: "",
     premiumSubscriber: false,
-    playlists: [[]],
 };
 const authDefaults: AuthType = { ...userDefaults, setCurrentUser: () => {} };
 

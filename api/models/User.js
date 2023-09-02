@@ -9,6 +9,13 @@ const songSchema = new mongoose.Schema({
     tags: mongoose.Schema.Types.Mixed,
     download: mongoose.Schema.Types.Mixed,
 });
+const playlistSchema = new mongoose.Schema(
+    {
+        name: String,
+        songs: [songSchema],
+    },
+    { timestamps: true }
+);
 
 // Define the user schema
 const userSchema = new mongoose.Schema(
@@ -39,7 +46,7 @@ const userSchema = new mongoose.Schema(
             default: false,
         },
         playlists: {
-            type: [songSchema],
+            type: [playlistSchema],
             default: [],
         },
         refreshToken: {

@@ -1,18 +1,60 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { Link } from "react-router-dom";
 import YourPlaylists from "../yourplaylist/YourPlaylists";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthProvider";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosContext } from "../../context/AxiosProvider";
+import { useDispatch } from "react-redux";
+import {setUserDetails} from "../../redux/UserSlice"
 
 type State = "open" | "closed";
 
+const navItems = [
+    {
+        title: "Home",
+        icon: <HomeRoundedIcon />,
+        href: "/",
+    },
+];
+
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
     const [sidebarState, setSidebarState] = useState<State>("closed");
+    const { _id } = useContext(AuthContext);
+    const { setAuthStatus } = useContext(AxiosContext);
+    const dispatch = useDispatch();
+    
+    const queryClient = useQueryClient();
+
+    const { isError, mutate } = useMutation({
+        mutationFn: async () => {
+            const res = await axios.get(
+                `${import.meta.env.VITE_API_URL}/auth/logout`,
+                {
+                    withCredentials: true,
+                }
+            );
+        },
+        onSuccess: () => {
+            setAuthStatus("unauthenticated");
+            dispatch(setUserDetails({
+                _id: "",
+                username: "",
+                accessToken: "",
+                email: "",
+                premiumSubscriber: false,
+            }));
+            queryClient.invalidateQueries(["userPlaylists", _id]);
+        },
+    });
 
     const handleState = () => {
         setSidebarState((prev) => (prev === "open" ? "closed" : "open"));
@@ -58,12 +100,12 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         />
                     )}
                 </button>
-                <div className="h-full px-3 py-4 overflow-y-auto bg-secDark">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-secDark no-scrollbar">
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link
                                 to="/"
-                                className="flex items-center justify-center p-2 text-textDark-200 rounded-lg hover:bg-gray-700 group"
+                                className="flex items-center justify-center p-2 text-textDark-200 rounded-md hover:bg-gray-700 group"
                             >
                                 <HomeRoundedIcon
                                     fontSize={`${open() ? "medium" : "large"}`}
@@ -93,15 +135,35 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                                 >
                                     Search
                                 </span>
-                                {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full bg-gray-700 dark:text-gray-300">
-                                    Pro
-                                </span> */}
                             </Link>
                         </li>
+                        <li>
+                            <button
+                                onClick={() => mutate()}
+                                className="flex w-full items-center justify-start cursor-pointer p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
+                            >
+                                {/* svg */}
+                                <LogoutIcon
+                                    className="text-red-400"
+                                    fontSize={`${open() ? "medium" : "large"}`}
+                                />
+                                <span
+                                    className={`flex-1 ml-3 whitespace-nowrap text-left ${
+                                        open() ? "" : "md:hidden"
+                                    }`}
+                                >
+                                    Logout
+                                </span>
+                            </button>
+                        </li>
+                        {isError && (
+                            <p className="text-red-500">Something went wrong</p>
+                        )}
                         <li className="w-full h-[1px] bg-textDark-400"></li>
                     </ul>
 
                     {/* Playlist */}
+
                     <YourPlaylists open={open} />
                 </div>
             </aside>

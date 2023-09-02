@@ -60,9 +60,7 @@ const Playlist = ({}: Props) => {
 
     useEffect(() => {
         data &&
-            localStorage.setItem("playlist", JSON.stringify(data.results[0]));
-        data &&
-            (playlist.length === 0 || p_id !== Number(playlistId)) &&
+            (playlist.length === 0 || p_id !== playlistId) &&
             setPlaylist(data.results);
         // console.log(songs);
         // if (songs && playlist && playlist.length > songs.length) {
@@ -70,7 +68,7 @@ const Playlist = ({}: Props) => {
         //     setPage((prev) => prev + 1);
         // }
         data && setSongs(data.results);
-        setPlaylistId(Number(playlistId));
+        playlistId && setPlaylistId(playlistId);
     }, [data]);
 
     const addMore = async () => {
@@ -101,7 +99,7 @@ const Playlist = ({}: Props) => {
     // color = currentSong !== "" ? currentSong.tags[1].color : null!;
 
     return (
-        <div className="w-full pb-[20px]">
+        <div className="w-full pb-[20px] ">
             {/* top image */}
             <div
                 className={`w-full h-[350px] flex items-end justify-start relative mb-2 overflow-hidden`}
@@ -132,7 +130,7 @@ const Playlist = ({}: Props) => {
             </div>
             {/* playlist items */}
             <div className="flex flex-col items-center justify-center gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
-                {songs && (playlist.length == 0 || p_id !== Number(playlistId))
+                {songs && (playlist.length == 0 || p_id !== playlistId)
                     ? songs.map((song, index) => (
                           <PlaylistCard
                               key={index}

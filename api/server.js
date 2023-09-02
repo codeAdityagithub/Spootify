@@ -6,21 +6,25 @@ const authRouter = require("./auth/auth");
 const userRouter = require("./routers/user");
 
 const connect = require("./utils/db");
+const cookieParser = require("cookie-parser");
 
 const app = express();
-app.use(express.json());
 app.use(
     cors({
+        credentials: true,
         origin: process.env.CLIENT_URL,
     })
 );
+app.use(cookieParser());
+app.use(express.json());
 
-connect();
+
 // auth file
 app.use("/auth", authRouter);
 
 app.use("/user", userRouter);
 
+connect();
 // public routes
 app.get("/songs", async (req, res) => {
     const page = Number(req.query.page);
@@ -49,7 +53,6 @@ app.get("/search", async (req, res) => {
         return res.status(404);
     }
 });
-
 app.get("/songs/:genre", async (req, res) => {
     try {
         const genre = req.params.genre;

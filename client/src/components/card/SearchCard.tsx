@@ -20,7 +20,7 @@ const SearchCard = ({ song }: { song: Song }): React.ReactNode => {
                 onClick={() => {
                     setCurrentSong(song);
                     setPlaylist([]);
-                    setPlaylistId(-1);
+                    setPlaylistId("");
                     setCurrentIndex(0);
                 }}
                 className={`relative group w-full flex items-start gap-1 lg:gap-3 justify-center flex-row `}

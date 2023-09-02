@@ -20,17 +20,7 @@ const Search = ({ query, genre, mood }: searchParams) => {
     // const mood = searchParams.get("mood");
 
     let songs: Song[];
-    // const { data, error, isLoading } = useSWR(
-    //     `http://localhost:8000/search?query=${searchParams.get(
-    //         "query"
-    //     )}&genre=&mood=`,
-    //     fetcher,
-    //     {
-    //         revalidateIfStale: true,
-    //         revalidateOnReconnect: false,
-    //         revalidateOnFocus: false,
-    //     }
-    // );
+
     const { data } = useQuery({
         queryKey: ["search", query],
         queryFn: async ({ signal }) => {
@@ -46,7 +36,7 @@ const Search = ({ query, genre, mood }: searchParams) => {
             return data;
         },
         staleTime: 1000,
-        enabled: Boolean(query.trim() !== ""),
+        enabled: Boolean(query.trim() !== "" && query.trim().length > 2),
     });
 
     songs = data && data.results;

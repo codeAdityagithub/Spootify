@@ -39,5 +39,10 @@ export interface UserType {
     email: string;
     premiumSubscriber: boolean;
     accessToken: string;
-    playlists: [Song[]];
+}
+
+export interface playlistSidebar {
+    _id: string;
+    name: string;
+    firstSongCover: string | null;
 }

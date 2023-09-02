@@ -23,7 +23,7 @@ const HorizontalCarousel = ({
                         className="ml-auto pr-5 underline cursor-pointer"
                         to={`/playlist/${playlistId}`}
                         onClick={() =>
-                            id !== Number(playlistId) && setCurrentIndex(0)
+                            id !== playlistId && setCurrentIndex(0)
                         }
                     >
                         Play All

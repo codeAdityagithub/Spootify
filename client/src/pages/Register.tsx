@@ -1,7 +1,8 @@
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, redirect, useNavigate } from "react-router-dom";
+import { AxiosContext } from "../context/AxiosProvider";
 
 type Props = {};
 
@@ -32,7 +33,8 @@ const Register = () => {
         email: "",
         password: "",
     });
-
+    const navigate = useNavigate();
+    const { authStatus } = useContext(AxiosContext);
     const { mutate, isLoading, isError, error }: mutationType = useMutation({
         mutationFn: createUser,
         onSuccess: () => {
@@ -49,7 +51,9 @@ const Register = () => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    isError && console.log(error);
+    // isError && console.log(error);
+
+    if (authStatus === "authenticated") return navigate("/");
 
     return (
         <div className="w-full h-full overflow-y-auto flex relative font-sans justify-center items-center box-border">

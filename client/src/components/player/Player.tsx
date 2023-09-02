@@ -54,9 +54,9 @@ const Player = () => {
                                 ))}
                             </span>
                         </div>
-                        {playlistId !== -1 ? (
+                        {playlistId !== "" ? (
                             <Link
-                                to={`/playlist/${playlistId}`}
+                                to={`${isNaN(Number(playlistId))? "/userplaylist/":"/playlist/"}${playlistId}`}
                                 className=" rounded-md p-1 absolute right-0 top-0 bg-textDark-800"
                             >
                                 <ArrowOutwardRoundedIcon fontSize="medium" />

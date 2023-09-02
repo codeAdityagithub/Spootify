@@ -1,37 +1,60 @@
-import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState, useRef } from "react";
+import { Link, redirect } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 
 import AddIcon from "@mui/icons-material/Add";
 import FeaturedPlayList from "@mui/icons-material/FeaturedPlayList";
-import LoginIcon from "@mui/icons-material/Login";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
+
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosContext } from "../../context/AxiosProvider";
+import Options from "./Options";
+import Dialog from "./Dialog";
+import { playlistSidebar } from "../../types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/Store";
 
 type Props = {
     open: () => Boolean;
 };
 
-const getPlaylists = async (id: string, token: string) => {
-    console.log(id, token);
-    const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/user/playlists/${id}`,
-        {
-            headers: { authorization: "Bearer " + token },
-        }
-    );
-    return res.data;
-};
+// const getPlaylists = async (token: string) => {
+//     const res = await axiosInstance.get(
+//         `${import.meta.env.VITE_API_URL}/user/playlists`,
+//         {
+//             headers: { authorization: "Bearer " + token },
+//         }
+//     );
+//     return res.data;
+// };
 
 const YourPlaylists = ({ open }: Props) => {
-    const { _id: id, accessToken: token } = useContext(AuthContext);
+    const { accessToken: token, _id } = useSelector((state:RootState)=>state.user);
+    const { instance, authStatus } = useContext(AxiosContext);
+    const [firstTry, setFirstTry] = useState(true);
 
-    const { data, isError, status } = useQuery({
-        queryKey: ["userPlaylists", id],
-        queryFn: async () => await getPlaylists(id, token),
-        enabled: id !== "",
+    // const imageRef = useRef<HTMLImageElement>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    const { data, isError } = useQuery<[playlistSidebar]>({
+        queryKey: ["userPlaylists", _id],
+        queryFn: async () => {
+            const res = await instance.get(
+                `${import.meta.env.VITE_API_URL}/user/playlists`,
+                {
+                    headers: { authorization: "Bearer " + token },
+                }
+            );
+            // console.log(res.data.playlists);
+            return res.data.playlists;
+        },
+
+        // refetchInterval: 1000 * 15,
+        enabled: firstTry || authStatus === "authenticated",
     });
+
+    useEffect(() => {
+        if (isError) setFirstTry(false);
+    }, [isError]);
 
     return (
         <ul className="space-y-2 font-medium w-full">
@@ -43,64 +66,54 @@ const YourPlaylists = ({ open }: Props) => {
                 >
                     Your Playlists:
                 </span>
-                <Link
-                    to="#"
-                    className="text-textDark-200 rounded-lg hover:bg-gray-700 ml-auto group p-2"
-                >
-                    <AddIcon fontSize={`${open() ? "medium" : "large"}`} />
-                </Link>
+                {authStatus == "unauthenticated" ? null : (
+                    <>
+                        {/* Open the modal using ID.showModal() method */}
+                        <button
+                            onClick={() => {
+                                dialogRef?.current?.showModal();
+                            }}
+                            className="text-textDark-200 rounded-lg hover:bg-gray-700 ml-auto group p-2"
+                        >
+                            <AddIcon
+                                fontSize={`${open() ? "medium" : "large"}`}
+                            />
+                        </button>
+
+                        <Dialog dialogRef={dialogRef} />
+                    </>
+                )}
             </li>
 
             {/* user playlists */}
-            {isError || status === "loading" ? (
-                <>
-                    <li className="button flex items-center justify-start p-2 text-textDark-200 rounded-lg">
-                        <Link to="/login" className="">
-                            <LoginIcon
-                                fontSize={`${open() ? "medium" : "large"}`}
-                            />
-                            <span
-                                className={`flex-1 ml-3 ${
-                                    open() ? "" : "md:hidden"
-                                }`}
-                            >
-                                Login
-                            </span>
-                        </Link>
-                    </li>
-                    <li className="button flex items-center justify-start p-2 text-textDark-200 rounded-lg">
-                        <Link to="/register" className="">
-                            <HowToRegIcon
-                                fontSize={`${open() ? "medium" : "large"}`}
-                            />
-                            <span
-                                className={`flex-1 ml-3 ${
-                                    open() ? "" : "md:hidden"
-                                }`}
-                            >
-                                Register
-                            </span>
-                        </Link>
-                    </li>
-                </>
+            {authStatus == "unauthenticated" ? (
+                <Options open={open} />
             ) : (
-                <li>
-                    <Link
-                        to="/"
-                        className="flex items-center justify-center p-2 text-textDark-200 rounded-lg hover:bg-gray-700 group"
-                    >
-                        <FeaturedPlayList
-                            fontSize={`${open() ? "medium" : "large"}`}
-                        />
-                        <span
-                            className={`flex-1 ml-3 whitespace-nowrap ${
-                                open() ? "" : "md:hidden"
-                            }`}
-                        >
-                            Home
-                        </span>
-                    </Link>
-                </li>
+                <div className="playlists">
+                    {data &&
+                        data.map((playlist) => (
+                            <Link
+                                to={`/userplaylist/${playlist._id}`}
+                                className="w-full text-textDark-200 p-2 flex flex-row hover:bg-gray-700 rounded-md cursor-pointer"
+                                key={playlist._id}
+                            >
+                                <img
+                                    src={
+                                        playlist?.firstSongCover
+                                            ? playlist.firstSongCover
+                                            : "/playlist.png"
+                                    }
+                                    alt="card"
+                                    className={`${
+                                        open() ? "w-12" : "w-10"
+                                    } aspect-square object-cover rounded-md transition-all duration-300 mr-3`}
+                                />
+                                <span className={`${open() ? "" : "hidden "}`}>
+                                    {playlist.name}
+                                </span>
+                            </Link>
+                        ))}
+                </div>
             )}
         </ul>
     );

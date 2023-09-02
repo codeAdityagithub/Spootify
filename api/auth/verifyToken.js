@@ -6,6 +6,7 @@ const verify = (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
     // console.log("token", token);
+    // console.log("verify", req.cookies)
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {

@@ -137,7 +137,7 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                 <div className="flex flex-row items-center justify-center gap-4 flex-1">
                     <div
                         className={`controls-icon ${
-                            playlistId === -1 ? "text-textDark-400" : ""
+                            playlistId === "" ? "text-textDark-400" : ""
                         }`}
                         onClick={handlePrev}
                     >
@@ -158,7 +158,7 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                     </div>
                     <div
                         className={`controls-icon ${
-                            playlistId === -1 ? "text-textDark-400" : ""
+                            playlistId === "" ? "text-textDark-400" : ""
                         }`}
                         onClick={handleEnd}
                     >

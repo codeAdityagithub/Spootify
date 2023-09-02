@@ -5,12 +5,22 @@ const bcrypt = require("bcryptjs");
 const verifyToken = require("./verifyToken");
 
 const User = require("../models/User");
+const cookieParser = require("cookie-parser");
 
 const router = express.Router();
 
+// router.use(cookieParser());
+// router.use((req, res, next) => {
+//     origin = req.headers.origin;
+//     if (origin == "http://localhost:5173") {
+//         req.headers["access-control-allow-credentials"] = "true";
+//     }
+//     next();
+// });
+
 const generateAccessToken = (user) => {
     return jwt.sign({ ...user }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "20s",
+        expiresIn: "15m",
     });
 };
 
@@ -22,39 +32,74 @@ const generateRefreshToken = (user) => {
 
 // test route for checking tokens
 router.get("/test", verifyToken, (req, res) => {
-    const cookie = req.cookies;
-    console.log(cookie);
-
     res.send("hi");
 });
 
-// router.post("/refresh", (req, res) => {
-//     //take the refresh token from the user
-//     const refreshToken = req.body.token;
+router.get("/refresh", (req, res) => {
+    const cookies = req.cookies;
+    // console.log("refresh", cookies.jwt);
+    if (!cookies?.jwt)
+        return res.status(401).json("You are not authenticated!");
+    //take the refresh token from the user
+    const refreshToken = cookies.jwt;
+    // checking if user has refresh token
+    // const user = User.findOne({ refreshToken });
+    // if (!user) return res.status(401).json("You are not authenticated!");
 
-//     //send error if there is no token or it's invalid
-//     if (!refreshToken)
-//         return res.status(401).json("You are not authenticated!");
-//     if (!refreshTokens.includes(refreshToken)) {
-//         return res.status(403).json("Refresh token is not valid!");
-//     }
-//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-//         err && console.log(err);
-//         refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+    //send error if there is no token or it's invalid
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, decodedUser) => {
+            // if tampered with
+            if (err) return res.status(403).json("Forbidden");
 
-//         const newAccessToken = generateAccessToken(user);
-//         const newRefreshToken = generateRefreshToken(user);
+            const userData = {
+                _id: decodedUser._id,
+                username: decodedUser.username,
+                email: decodedUser.email,
+                premiumSubscriber: decodedUser.premiumSubscriber,
+            };
+            const newAccessToken = generateAccessToken(userData);
+            // console.log("new access token", newAccessToken);
+            res.status(200).json({
+                accessToken: newAccessToken,
+            });
+        }
+    );
 
-//         refreshTokens.push(newRefreshToken);
+    //if everything is ok, create new access token, refresh token and send to user
+});
 
-//         res.status(200).json({
-//             accessToken: newAccessToken,
-//             refreshToken: newRefreshToken,
-//         });
-//     });
+router.get("/logout", async (req, res) => {
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.sendStatus(204);
+    //take the refresh token from the user
+    const refreshToken = cookies.jwt;
+    // console.log(refreshToken);
+    // checking if user has refresh token
+    const user = await User.findOne({ refreshToken });
+    if (!user)
+        return res
+            .clearCookie("jwt", {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+            })
+            .sendStatus(204);
 
-//     //if everything is ok, create new access token, refresh token and send to user
-// });
+    user.refreshToken = "";
+    // console.log(user);
+    try {
+        await user.save();
+    } catch (err) {
+        return res.status(500).send("Database Error, not able to logout");
+    }
+
+    return res
+        .clearCookie("jwt", { httpOnly: true, secure: true, sameSite: "none" })
+        .sendStatus(204); // secure true prod
+});
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -84,12 +129,26 @@ router.post("/login", async (req, res) => {
     const refreshToken = generateRefreshToken(userData);
 
     // setting refreshtoken in db for further reference
+    // console.log(refreshToken);
     user.refreshToken = refreshToken;
-    await user.save();
+    try {
+        await user.save();
+    } catch (err) {
+        return res.status(500).send("Database Error, not able to save");
+    }
 
     // sending cookie through httpOnly
+    // res.header("Access-Control-Allow-Origin: http://localhost:5173/");
+    // res.header("Access-Control-Allow-Credentials: true");
+    // res.header("Access-Control-Allow-Methods: GET, POST");
+    // res.header("Access-Control-Allow-Headers: Content-Type, *");
+
     res.cookie("jwt", refreshToken, {
+        // domain: "127.0.0.1",
+        // path: "/",
+        secure: true,
         httpOnly: true,
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({ ...userData, accessToken });

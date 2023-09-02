@@ -6,8 +6,10 @@ type playlistContextType = {
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
     playlist: Song[];
     setPlaylist: React.Dispatch<React.SetStateAction<Song[]>>;
-    playlistId: number;
-    setPlaylistId: React.Dispatch<React.SetStateAction<number>>;
+    playlistId: string;
+    setPlaylistId: React.Dispatch<React.SetStateAction<string>>;
+    selectedSong:Song|undefined;
+    setSelectedSong: React.Dispatch<React.SetStateAction<Song | undefined>>
 };
 
 export const PlaylistContext = createContext<playlistContextType>(null!);
@@ -19,8 +21,8 @@ const PlaylistContextProvider = ({
 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [playlist, setPlaylist] = useState<Song[]>([]);
-    const [playlistId, setPlaylistId] = useState(-1);
-
+    const [playlistId, setPlaylistId] = useState("");
+    const [selectedSong, setSelectedSong] = useState<Song>();
     return (
         <PlaylistContext.Provider
             value={{
@@ -30,6 +32,8 @@ const PlaylistContextProvider = ({
                 setPlaylist,
                 playlistId,
                 setPlaylistId,
+                selectedSong,
+                setSelectedSong
             }}
         >
             {children}
