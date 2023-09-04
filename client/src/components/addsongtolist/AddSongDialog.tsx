@@ -6,17 +6,14 @@ import {
 } from "@tanstack/react-query";
 import React, { useContext, useState } from "react";
 import { AxiosContext } from "../../context/AxiosProvider";
-import { AuthContext } from "../../context/AuthProvider";
 
 import CloseIcon from "@mui/icons-material/Close";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 import { playlistSidebar } from "../../types";
-import AddSongContext from "../../context/AddSongContext";
 import { useOutletContext } from "react-router-dom";
-import { PlaylistContext } from "../../context/PlaylistContext";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/Store";
+import {  useSelector } from "react-redux";
+import {  RootState } from "../../redux/store/Store";
 
 type Props = {};
 
@@ -31,9 +28,12 @@ type mutationType = {
 const Dialog = () => {
     const [playlistName, setPlaylistName] = useState("");
     const { instance } = useContext(AxiosContext);
-    const { selectedSong, setSelectedSong } = useContext(PlaylistContext);
+    // const { selectedSong, setSelectedSong } = useContext(PlaylistContext);
 
-    const { accessToken: token, _id } = useSelector((state:RootState)=>state.user)
+    const { accessToken: token, _id } = useSelector(
+        (state: RootState) => state.user
+    );
+    const { selectedSong } = useSelector((state: RootState) => state.playlist);
 
     const dialogRef = useOutletContext<React.RefObject<HTMLDialogElement>>();
     const queryClient = useQueryClient();

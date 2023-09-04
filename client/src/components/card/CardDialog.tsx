@@ -1,7 +1,13 @@
 import { forwardRef, useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 import { PlaylistContext } from "../../context/PlaylistContext";
+
+import {  setSelectedSong } from "../../redux/PlaylistSlice";
+
+
 import { Song } from "../../types";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store/Store";
 type Props = {
     song:Song
 };
@@ -9,7 +15,7 @@ type Props = {
 const CardDialog = forwardRef((props:Props, ref:any) => {
         const dialogRef =
             useOutletContext<React.RefObject<HTMLDialogElement>>();
-        const { setSelectedSong } = useContext(PlaylistContext);
+        const dispatch = useDispatch<AppDispatch>()
 
         return (
             <dialog
@@ -25,7 +31,7 @@ const CardDialog = forwardRef((props:Props, ref:any) => {
                     <li
                         onClick={() => {
                             dialogRef.current?.showModal();
-                            setSelectedSong(props.song);
+                            dispatch(setSelectedSong(props.song));
                         }}
                     >
                         <a

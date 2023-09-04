@@ -28,7 +28,9 @@ type Props = {
 // };
 
 const YourPlaylists = ({ open }: Props) => {
-    const { accessToken: token, _id } = useSelector((state:RootState)=>state.user);
+    const { accessToken: token, _id } = useSelector(
+        (state: RootState) => state.user
+    );
     const { instance, authStatus } = useContext(AxiosContext);
     const [firstTry, setFirstTry] = useState(true);
 
@@ -48,7 +50,7 @@ const YourPlaylists = ({ open }: Props) => {
             return res.data.playlists;
         },
 
-        // refetchInterval: 1000 * 15,
+        refetchInterval: 1000 * 60 * 5,
         enabled: firstTry || authStatus === "authenticated",
     });
 

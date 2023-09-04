@@ -62,11 +62,6 @@ const Playlist = ({}: Props) => {
         data &&
             (playlist.length === 0 || p_id !== playlistId) &&
             setPlaylist(data.results);
-        // console.log(songs);
-        // if (songs && playlist && playlist.length > songs.length) {
-        //     addMore();
-        //     setPage((prev) => prev + 1);
-        // }
         data && setSongs(data.results);
         playlistId && setPlaylistId(playlistId);
     }, [data]);
@@ -121,7 +116,7 @@ const Playlist = ({}: Props) => {
                     <img
                         src={currentSong.coverUrl}
                         alt={currentSong.name}
-                        className="absolute top-2 left-1/2 -translate-x-1/2 select-none"
+                        className="absolute top-2 left-1/2 -translate-x-1/2 select-none shadow-lg shadow-gray-800"
                     />
                 ) : null}
                 <div className="w-full text-textDark-200 text-xl font-extrabold p-4 relative">
@@ -129,7 +124,7 @@ const Playlist = ({}: Props) => {
                 </div>
             </div>
             {/* playlist items */}
-            <div className="flex flex-col items-center justify-center gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
+            <div className="min-h-[calc(100vh-400px)] flex flex-col items-center justify-center gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
                 {songs && (playlist.length == 0 || p_id !== playlistId)
                     ? songs.map((song, index) => (
                           <PlaylistCard

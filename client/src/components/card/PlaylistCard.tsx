@@ -3,6 +3,7 @@ import { useRef, useContext, useEffect } from "react";
 
 import { Song } from "../../types";
 import { SongContext } from "../../context/SongContext";
+import { is } from "immer/dist/internal.js";
 
 // type Props = {};
 
@@ -54,7 +55,7 @@ const PlaylistCard = ({
 
     useEffect(() => {
         isCurrent && setCurrentSong(song);
-    }, []);
+    }, [isCurrent]);
 
     return (
         <div

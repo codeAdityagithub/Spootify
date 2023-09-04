@@ -89,7 +89,7 @@ const UserPlaylist = (props: Props) => {
                     <img
                         src={currentSong.coverUrl}
                         alt={currentSong.name}
-                        className="absolute top-2 left-1/2 -translate-x-1/2 select-none"
+                        className="absolute top-2 left-1/2 -translate-x-1/2 select-none shadow-gray-800"
                     />
                 ) : null}
                 <div className="w-full text-textDark-200 text-xl font-extrabold p-4 relative">
@@ -97,7 +97,7 @@ const UserPlaylist = (props: Props) => {
                 </div>
             </div>
             {/* playlist items */}
-            <div className="flex flex-col items-center justify-center gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
+            <div className="min-h-[calc(100vh-400px)] flex flex-col items-center justify-start gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
                 {playlist &&
                     playlist.map((song, index) => (
                         <PlaylistCard

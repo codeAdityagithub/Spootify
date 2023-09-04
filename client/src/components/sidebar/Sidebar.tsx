@@ -13,8 +13,9 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthProvider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosContext } from "../../context/AxiosProvider";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {setUserDetails} from "../../redux/UserSlice"
+import { RootState } from "../../redux/store/Store";
 
 type State = "open" | "closed";
 
@@ -28,7 +29,7 @@ const navItems = [
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
     const [sidebarState, setSidebarState] = useState<State>("closed");
-    const { _id } = useContext(AuthContext);
+    const _id = useSelector((state:RootState)=>state.user._id)
     const { setAuthStatus } = useContext(AxiosContext);
     const dispatch = useDispatch();
     
