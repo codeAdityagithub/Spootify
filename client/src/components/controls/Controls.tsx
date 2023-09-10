@@ -29,9 +29,10 @@ const Controls = () => {
 
     // const { currentIndex, setCurrentIndex, playlist, playlistId } =
     //     useContext(PlaylistContext);
-    const { currentIndex, playlistLength, playlistId } = useSelector(
+    const { queue, currentIndex, playlistLength, playlistId } = useSelector(
         (state: RootState) => state.playlist
     );
+    const {setCurrentSong} = useContext(SongContext)
     const { currentSong } = useSelector(
         (state: RootState) => state.song
     );
@@ -44,6 +45,7 @@ const Controls = () => {
             return;
         }
         dispatch(incCurrentIndex());
+        setCurrentSong(queue[currentIndex+1]);
         // dispatch(setCurrentSong(playlist[currentIndex + 1]));
     };
     const handlePrev = () => {
@@ -51,6 +53,7 @@ const Controls = () => {
             return;
         }
         dispatch(decCurrentIndex());
+        setCurrentSong(queue[currentIndex-1]);
 
         // dispatch(setCurrentSong(playlist[currentIndex - 1]));
     };

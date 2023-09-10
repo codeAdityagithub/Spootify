@@ -6,17 +6,16 @@ import { PlaylistContext } from "../../context/PlaylistContext";
 import { setCurrentSong } from "../../redux/SongSlice";
 import { setPlaylistState } from "../../redux/PlaylistSlice";
 
-
-
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store/Store";
+import CardDialog from "./CardDialog";
 
 const SearchCard = ({ song }: { song: Song }): React.ReactNode => {
     const imgRef = useRef<HTMLImageElement>(null);
     const dispatch = useDispatch<AppDispatch>();
 
-    // const { setCurrentSong } = useContext(SongContext);
+    const { setCurrentSong } = useContext(SongContext);
     // const { setPlaylist, setPlaylistId, setCurrentIndex } =
     //     useContext(PlaylistContext);
 
@@ -25,8 +24,15 @@ const SearchCard = ({ song }: { song: Song }): React.ReactNode => {
             <div
                 tabIndex={0}
                 onClick={() => {
-                    dispatch(setCurrentSong(song));
-                    dispatch(setPlaylistState({playlist:[], playlistId:"", currentIndex:0}))
+                    setCurrentSong(song);
+                    dispatch(
+                        setPlaylistState({
+                            queue: [],
+                            playlistId: "",
+                            currentIndex: 0,
+                            playlistLength: 0,
+                        })
+                    );
                     // setPlaylist([]);
                     // setPlaylistId("");
                     // setCurrentIndex(0);
@@ -62,12 +68,9 @@ const SearchCard = ({ song }: { song: Song }): React.ReactNode => {
             </div>
             <div
                 // onClick={}
-                className="group transition-all flex items-center justify-center h-[72px] md:h-[80px] p-2 text-textDark-200 hover:text-textDark-400 cursor-pointer"
+                className="group relative transition-all flex items-center justify-center w-12"
             >
-                <PlaylistAddIcon
-                    className="group-hover:bg-textDark-800"
-                    fontSize="medium"
-                />
+                <CardDialog song={song} pos="-left-44 md:-left-52" />
             </div>
         </div>
     );

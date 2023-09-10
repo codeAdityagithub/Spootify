@@ -73,6 +73,7 @@ const UserPlaylist = (props: Props) => {
             playlistId &&
                 dispatch(
                     setPlaylistState({
+                        queue: data.songs,
                         playlistLength: data.songs.length,
                         playlistId: playlistId,
                         currentIndex: 0,
@@ -92,7 +93,7 @@ const UserPlaylist = (props: Props) => {
                     <img
                         src={currentSong.coverUrl}
                         alt={currentSong.name}
-                        className="absolute self-stretch w-full top-1/2 -translate-y-1/2 blur-sm select-none"
+                        className="absolute self-stretch w-full top-1/2 -translate-y-1/2 blur-sm brightness-50 select-none"
                         // className="absolute top-0 left-1/2 -translate-x-1/2 "
                     />
                 ) : (

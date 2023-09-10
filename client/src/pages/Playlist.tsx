@@ -7,7 +7,6 @@ import { Genre } from "../enums";
 
 import PlaylistCard from "../components/card/PlaylistCard";
 import { SongContext } from "../context/SongContext";
-import { PlaylistContext } from "../context/PlaylistContext";
 // import getPlaylistData from "../hooks/usePlaylistData";
 
 import { setPlaylistState, updatePlaylistLength } from "../redux/PlaylistSlice";
@@ -20,7 +19,6 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store/Store";
-import { setCurrentSong } from "../redux/SongSlice";
 import CardDialog from "../components/card/CardDialog";
 
 const Playlist = ({}: Props) => {
@@ -67,6 +65,9 @@ const Playlist = ({}: Props) => {
             playlistId != null &&
                 dispatch(
                     setPlaylistState({
+                        queue: data.pages?.flatMap(
+                            (page) => page.results
+                        ),
                         playlistLength: data.pages?.flatMap(
                             (page) => page.results
                         ).length,

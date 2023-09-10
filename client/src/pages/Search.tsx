@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Song } from "../types";
 
 import SearchCard from "../components/card/SearchCard";
+import AddSongDialog from "../components/addsongtolist/AddSongDialog";
+
 import { Genre } from "../enums";
 
 import { useQuery } from "@tanstack/react-query";
@@ -52,6 +54,8 @@ const Search = ({ query, genre, mood }: searchParams) => {
 
     return (
         <div className="results mb-2 px-4 flex flex-col gap-2">
+            <AddSongDialog />
+
             {songs && songs.length === 0 && (
                 <div className="text-center text-textDark-200 text-lg">
                     No songs found 😓

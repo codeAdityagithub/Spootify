@@ -4,14 +4,16 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { Song } from "../types";
 
 type init = {
+    queue: Song[];
     currentIndex: number;
-    playlistLength:number;
+    playlistLength: number;
     playlistId: string;
     selectedSong: Song | null;
 };
 const initialState: init = {
+    queue: [],
     currentIndex: 0,
-    playlistLength:0,
+    playlistLength: 0,
     playlistId: "",
     selectedSong: null,
 };
@@ -24,14 +26,15 @@ export const playlistSlice = createSlice({
             state: init,
             action: PayloadAction<Omit<init, "selectedSong">>
         ) => {
-            const { currentIndex, playlistLength, playlistId } = action.payload;
-
+            const { queue, currentIndex, playlistLength, playlistId } =
+                action.payload;
+            state.queue = queue;
             state.currentIndex = currentIndex;
             state.playlistLength = playlistLength;
             state.playlistId = playlistId;
         },
         updatePlaylistLength: (state: init, action: PayloadAction<number>) => {
-            state.playlistLength = action.payload
+            state.playlistLength = action.payload;
         },
         setCurrentIndex: (state: init, action: PayloadAction<number>) => {
             state.currentIndex = action.payload;

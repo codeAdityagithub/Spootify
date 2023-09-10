@@ -22,7 +22,7 @@ const CardDialog = (props: Props) => {
 
     return (
         <button
-            className="absolute rounded-md bottom-3 right-3 z-10 hover:bg-gray-700"
+            className="absolute rounded-md bottom-0 -translate-y-1/2 right-3 z-10 hover:bg-gray-700"
             onClick={() => {
                 if (!openOptions) popoverRef.current?.show();
                 else popoverRef.current?.close();
