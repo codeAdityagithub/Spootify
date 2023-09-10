@@ -12,33 +12,47 @@ import Forward5Icon from "@mui/icons-material/Forward5";
 import Replay5Icon from "@mui/icons-material/Replay5";
 
 import { SongContext } from "../../context/SongContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/Store";
+
+import { incCurrentIndex, decCurrentIndex } from "../../redux/PlaylistSlice";
+import { setCurrentSong } from "../../redux/SongSlice";
 
 const speedVal = ["Normal", "1.25x", "1.5x", "1.75x", "2x"];
 
-const Controls = ({ audioSrc }: { audioSrc: string }) => {
+const Controls = () => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [duration, setDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [currentSpeed, setCurrentSpeed] = useState<number>(0);
 
-    const { currentIndex, setCurrentIndex, playlist, playlistId } =
-        useContext(PlaylistContext);
-    const { setCurrentSong } = useContext(SongContext);
+    // const { currentIndex, setCurrentIndex, playlist, playlistId } =
+    //     useContext(PlaylistContext);
+    const { currentIndex, playlistLength, playlistId } = useSelector(
+        (state: RootState) => state.playlist
+    );
+    const { currentSong } = useSelector(
+        (state: RootState) => state.song
+    );
+    const dispatch = useDispatch<AppDispatch>();
+
+    // const { setCurrentSong } = useContext(SongContext);
 
     const handleEnd = () => {
-        if (playlist.length === 0 || playlist.length - 1 === currentIndex) {
+        if (playlistLength === 0 || playlistLength - 1 === currentIndex) {
             return;
         }
-        setCurrentIndex((prev) => prev + 1);
-        setCurrentSong(playlist[currentIndex + 1]);
+        dispatch(incCurrentIndex());
+        // dispatch(setCurrentSong(playlist[currentIndex + 1]));
     };
     const handlePrev = () => {
-        if (playlist.length === 0 || currentIndex === 0) {
+        if (playlistLength === 0 || currentIndex === 0) {
             return;
         }
-        setCurrentIndex((prev) => prev - 1);
-        setCurrentSong(playlist[currentIndex - 1]);
+        dispatch(decCurrentIndex());
+
+        // dispatch(setCurrentSong(playlist[currentIndex - 1]));
     };
 
     const handleSeek = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +133,7 @@ const Controls = ({ audioSrc }: { audioSrc: string }) => {
                 ref={audioRef}
                 src={`${
                     import.meta.env.VITE_STREAM_URL
-                }/stream?url=${audioSrc}`}
+                }/stream?url=${currentSong?.download.regular.toString()}`}
                 // controls
                 onTimeUpdate={updateTime}
                 onLoadedMetadata={updateDuration}

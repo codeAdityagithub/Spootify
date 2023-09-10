@@ -2,29 +2,33 @@ import { useRef, useContext, useEffect } from "react";
 // import { BsFillPlayFill } from "react-icons/bs";
 
 import { Song } from "../../types";
-import { SongContext } from "../../context/SongContext";
-import { is } from "immer/dist/internal.js";
 
+// import { setCurrentSong } from "../../redux/SongSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/Store";
+
+import { setCurrentIndex } from "../../redux/PlaylistSlice";
+import { SongContext } from "../../context/SongContext";
+import CardDialog from "./CardDialog";
 // type Props = {};
 
 const PlaylistCard = ({
     song,
-    isCurrent,
     index,
-    setCurrentIndex,
 }: {
     song: Song;
-    isCurrent: boolean;
     index: number;
-    setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
 }): React.ReactNode => {
     const imgRef = useRef<HTMLImageElement>(null);
     const divRef = useRef<HTMLDivElement>(null);
-
     const { setCurrentSong } = useContext(SongContext);
 
+    // const { setCurrentSong } = useContext(SongContext);
+    const { currentIndex } = useSelector((state: RootState) => state.playlist);
+    const dispatch = useDispatch<AppDispatch>();
+
     const scrollToCenter = () => {
-        if (!isCurrent) {
+        if (currentIndex !== index) {
             return;
         }
         const element = divRef.current;
@@ -50,24 +54,23 @@ const PlaylistCard = ({
         }
     };
     useEffect(() => {
-        scrollToCenter();
-    }, [isCurrent]);
+        // scrollToCenter();
+        // console.log(index === currentIndex);
 
-    useEffect(() => {
-        isCurrent && setCurrentSong(song);
-    }, [isCurrent]);
+        if (currentIndex === index) setCurrentSong(song);
+    }, [currentIndex]);
 
     return (
         <div
             tabIndex={0}
             onClick={() => {
                 setCurrentSong(song);
-                setCurrentIndex(index);
-                scrollToCenter();
+                dispatch(setCurrentIndex(index));
+                // scrollToCenter();
             }}
             ref={divRef}
             className={`${
-                isCurrent ? " bg-[#282828]" : " bg-secDark"
+                currentIndex === index ? " bg-[#282828]" : " bg-secDark"
             } relative group w-full flex items-start gap-1 lg:gap-3 justify-center flex-row rounded-md snap-center p-1 md:p-2 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]`}
         >
             <div className="relative">
@@ -84,7 +87,7 @@ const PlaylistCard = ({
                 <span
                     onClick={() => setCurrentSong(song)}
                     className={`${
-                        isCurrent ? "opacity-100" : "opacity-0"
+                        currentIndex === index ? "opacity-100" : "opacity-0"
                     } absolute w-fit h-12 rounded-full text-textDark-200 text-xs right-2 flex items-center justify-center bottom-1/2 translate-y-1/2 transition-all ease-in-out duration-300 `}
                 >
                     {/* <BsFillPlayFill size={30} className="translate-x-[1px]" /> */}

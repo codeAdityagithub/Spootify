@@ -14,8 +14,10 @@ import { AuthContext } from "../../context/AuthProvider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosContext } from "../../context/AxiosProvider";
 import { useDispatch, useSelector } from "react-redux";
-import {setUserDetails} from "../../redux/UserSlice"
+import { setUserDetails } from "../../redux/UserSlice";
 import { RootState } from "../../redux/store/Store";
+
+import AddSongDialog from "../addsongtolist/AddSongDialog";
 
 type State = "open" | "closed";
 
@@ -29,10 +31,10 @@ const navItems = [
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
     const [sidebarState, setSidebarState] = useState<State>("closed");
-    const _id = useSelector((state:RootState)=>state.user._id)
+    const _id = useSelector((state: RootState) => state.user._id);
     const { setAuthStatus } = useContext(AxiosContext);
     const dispatch = useDispatch();
-    
+
     const queryClient = useQueryClient();
 
     const { isError, mutate } = useMutation({
@@ -46,13 +48,15 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         },
         onSuccess: () => {
             setAuthStatus("unauthenticated");
-            dispatch(setUserDetails({
-                _id: "",
-                username: "",
-                accessToken: "",
-                email: "",
-                premiumSubscriber: false,
-            }));
+            dispatch(
+                setUserDetails({
+                    _id: "",
+                    username: "",
+                    accessToken: "",
+                    email: "",
+                    premiumSubscriber: false,
+                })
+            );
             queryClient.invalidateQueries(["userPlaylists", _id]);
         },
     });

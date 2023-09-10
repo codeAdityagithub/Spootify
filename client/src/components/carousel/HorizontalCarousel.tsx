@@ -2,6 +2,10 @@ import React, { useContext } from "react";
 
 import { Link } from "react-router-dom";
 import { PlaylistContext } from "../../context/PlaylistContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/Store";
+
+import { setCurrentIndex } from "../../redux/PlaylistSlice";
 
 const HorizontalCarousel = ({
     children,
@@ -12,7 +16,10 @@ const HorizontalCarousel = ({
     title: string;
     playlistId?: string;
 }) => {
-    const { setCurrentIndex, playlistId: id } = useContext(PlaylistContext);
+    const id = useSelector((state:RootState)=>state.playlist.playlistId)
+    // const { setCurrentIndex} = useContext(PlaylistContext);
+    const dispatch = useDispatch<AppDispatch>();
+
 
     return (
         <div className="w-full text-gray-200">
@@ -23,7 +30,7 @@ const HorizontalCarousel = ({
                         className="ml-auto pr-5 underline cursor-pointer"
                         to={`/playlist/${playlistId}`}
                         onClick={() =>
-                            id !== playlistId && setCurrentIndex(0)
+                            id !== playlistId && dispatch(setCurrentIndex(0))
                         }
                     >
                         Play All

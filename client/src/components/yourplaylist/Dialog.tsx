@@ -8,6 +8,8 @@ import { AxiosContext } from "../../context/AxiosProvider";
 import { AuthContext } from "../../context/AuthProvider";
 
 import CloseIcon from "@mui/icons-material/Close";
+import { RootState } from "../../redux/store/Store";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
@@ -26,7 +28,9 @@ const Dialog = ({
 }) => {
     const [playlistName, setPlaylistName] = useState("");
     const { instance } = useContext(AxiosContext);
-    const { accessToken: token, _id } = useContext(AuthContext);
+    // const { accessToken: token, _id } = useContext(AuthContext);
+    const { accessToken: token, _id } = useSelector((state:RootState)=>state.user)
+
     const queryClient = useQueryClient();
 
     const { mutate, isLoading, isError, error, isSuccess }: mutationType =

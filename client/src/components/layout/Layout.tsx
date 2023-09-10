@@ -26,26 +26,24 @@ const Layout = () => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <SongContextProvider>
-                <PlaylistContextProvider>
-                    {/* <AuthContextProvider> */}
-                    <Provider store={store}>
-                        <AxiosContextProvider>
-                            <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
-                                {/* search bar */}
-                                <Sidebar>
-                                    <Outlet context={dialogRef} />
-                                    <Player />
-                                </Sidebar>
-                            </div>
-                        </AxiosContextProvider>
-                        {/* </AuthContextProvider> */}
-                    </Provider>
-                </PlaylistContextProvider>
-            </SongContextProvider>
-            <ReactQueryDevtools />
-        </QueryClientProvider>
+        <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+                <SongContextProvider>
+                    <AxiosContextProvider>
+                        <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
+                            {/* search bar */}
+                            
+                            <Sidebar>
+                                
+                                <Outlet context={dialogRef} />
+                                <Player />
+                            </Sidebar>
+                        </div>
+                    </AxiosContextProvider>
+                </SongContextProvider>
+                <ReactQueryDevtools />
+            </QueryClientProvider>
+        </Provider>
     );
 };
 

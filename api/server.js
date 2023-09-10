@@ -30,8 +30,12 @@ app.get("/songs", async (req, res) => {
     const page = Number(req.query.page);
     try {
         const results = await ncs.getSongs(!isNaN(page) ? page : 0);
+        const nextPage=page+1;
+        if(!results){
+            nextPage=undefined
+        }
         // console.log(results.json());
-        return res.status(200).json({ results });
+        return res.status(200).json({ results, nextPage });
     } catch (error) {
         return res.status(404);
     }
@@ -63,7 +67,11 @@ app.get("/songs/:genre", async (req, res) => {
             },
             page
         );
-        return res.status(200).json({ results });
+        const nextPage=page+1;
+        if(!results){
+            nextPage=undefined
+        }
+        return res.status(200).json({ results, nextPage });
     } catch (error) {
         return res.status(404);
     }

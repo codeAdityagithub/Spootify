@@ -16,8 +16,8 @@ const songSlice = createSlice({
     name: "Current Song",
     initialState,
     reducers: {
-        setCurrentSong: (state: init, action: PayloadAction<Song>) => {
-            state.currentSong = action.payload;
+        setCurrentSong: (state: init, action: PayloadAction<Song|null>) => {
+            return {...state, currentSong:action.payload}
         },
         setIsPlaying: (state: init, action: PayloadAction<boolean>) => {
             state.isPlaying = action.payload;

@@ -20,7 +20,7 @@ export const userSlice = createSlice({
       state.accessToken = action.payload
     },
     setUserDetails: (state, action: PayloadAction<UserType>)=>{
-        state = action.payload
+        state = {...action.payload}
     }
   },
 })

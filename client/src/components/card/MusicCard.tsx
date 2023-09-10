@@ -8,6 +8,11 @@ import { SongContext } from "../../context/SongContext";
 import { useOutletContext } from "react-router-dom";
 import { PlaylistContext } from "../../context/PlaylistContext";
 import CardDialog from "./CardDialog";
+
+// import { setCurrentSong } from "../../redux/SongSlice";
+import { setCurrentIndex, setSelectedSong } from "../../redux/PlaylistSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/Store";
 // import { PlaylistContext } from "../../context/PlaylistContext";
 
 // type Props = {};
@@ -26,22 +31,21 @@ const MusicCard = ({
     const [openOptions, setOpenOptions] = useState(false);
 
     const { setCurrentSong } = useContext(SongContext);
-    const { setSelectedSong } = useContext(PlaylistContext);
+    // const { setSelectedSong } = useContext(PlaylistContext);
+    const { currentIndex } = useSelector((state: RootState) => state.playlist);
+    const dispatch = useDispatch<AppDispatch>();
+
     const dialogRef = useOutletContext<React.RefObject<HTMLDialogElement>>();
     const popoverRef = useRef<HTMLDialogElement>(null);
 
     const handleClick = () => {
         setCurrentSong(song);
+        dispatch(setCurrentIndex(index));
     };
     const clickOutside = () => {
         setOpenOptions(false);
         popoverRef.current?.close();
     };
-
-    // useEffect(() => {
-    //     document.addEventListener("click", clickOutside);
-    //     return document.removeEventListener("click", clickOutside);
-    // }, []);
 
     return (
         <div
@@ -85,81 +89,8 @@ const MusicCard = ({
                     <span key={artist.name}>{artist.name + ", "}</span>
                 ))}
             </p>
-            <button
-                className="absolute rounded-md bottom-2 right-2 z-10 hover:bg-gray-700"
-                onClick={() => {
-                    if (!openOptions) popoverRef.current?.show();
-                    else popoverRef.current?.close();
 
-                    setOpenOptions((prev) => !prev);
-                }}
-            >
-                <MoreVertIcon />
-            </button>
-            <div className="absolute bottom-2 right-2 hover:bg-gray-700 rounded-lg group">
-                {/* <button
-                    onClick={() => {
-                        if (!openOptions) popoverRef.current?.show();
-                        else popoverRef.current?.close();
-
-                        setOpenOptions((prev) => !prev);
-                    }}
-                >
-                    <MoreVertIcon />
-                </button> */}
-                {/* <dialog
-                    // onMouseLeave={() => setOpenOptions(false)}
-                    id="dropdown-menu"
-                    ref={popoverRef}
-                    className={`z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 md:w-44 dark:bg-gray-700 absolute bottom-0 left-full`}
-                >
-                    <ul
-                        className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdown-button"
-                    >
-                        <li
-                            onClick={() => {
-                                dialogRef.current?.showModal();
-                                setSelectedSong(song);
-                            }}
-                        >
-                            <a
-                                href="#"
-                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                                Add to Playlist
-                            </a>
-                        </li>
-                    </ul>
-                </dialog> */}
-                <CardDialog song={song} ref={popoverRef} />
-                {/* <div
-                    onMouseLeave={() => setOpenOptions(false)}
-                    id="dropdown-menu"
-                    className={`z-10 ${
-                        openOptions ? "block" : "hidden"
-                    } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute bottom-0 left-full`}
-                >
-                    <ul
-                        className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdown-button"
-                    >
-                        <li
-                            onClick={() => {
-                                dialogRef.current?.showModal();
-                                setSelectedSong(song);
-                            }}
-                        >
-                            <a
-                                href="#"
-                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                                Add to Playlist
-                            </a>
-                        </li>
-                    </ul>
-                </div> */}
-            </div>
+            <CardDialog song={song} pos="left-8" />
         </div>
     );
 };

@@ -14,6 +14,7 @@ import { playlistSidebar } from "../../types";
 import { useOutletContext } from "react-router-dom";
 import {  useSelector } from "react-redux";
 import {  RootState } from "../../redux/store/Store";
+import Options from "../yourplaylist/Options";
 
 type Props = {};
 
@@ -125,7 +126,7 @@ const Dialog = () => {
                 </p>
             ) : null}
             <div className="playlists">
-                {data &&
+                {data ?
                     data.map((playlist) => (
                         <div
                             className={`${
@@ -158,7 +159,9 @@ const Dialog = () => {
                                 <PlaylistAddIcon />
                             </button>
                         </div>
-                    ))}
+                    ))
+                :<Options open={()=>true}/>
+                }
             </div>
         </dialog>
     );

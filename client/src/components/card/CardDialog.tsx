@@ -1,28 +1,41 @@
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { PlaylistContext } from "../../context/PlaylistContext";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import {  setSelectedSong } from "../../redux/PlaylistSlice";
-
+import { setSelectedSong } from "../../redux/PlaylistSlice";
 
 import { Song } from "../../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store/Store";
 type Props = {
-    song:Song
+    song: Song;
+    pos: string;
 };
 
-const CardDialog = forwardRef((props:Props, ref:any) => {
-        const dialogRef =
-            useOutletContext<React.RefObject<HTMLDialogElement>>();
-        const dispatch = useDispatch<AppDispatch>()
+const CardDialog = (props: Props) => {
+    const [openOptions, setOpenOptions] = useState(false);
+    const popoverRef = useRef<HTMLDialogElement>(null);
 
-        return (
+    const dialogRef = useOutletContext<React.RefObject<HTMLDialogElement>>();
+    const dispatch = useDispatch<AppDispatch>();
+
+    return (
+        <button
+            className="absolute rounded-md bottom-3 right-3 z-10 hover:bg-gray-700"
+            onClick={() => {
+                if (!openOptions) popoverRef.current?.show();
+                else popoverRef.current?.close();
+
+                setOpenOptions((prev) => !prev);
+            }}
+        >
+            <MoreVertIcon className="text-white" />
             <dialog
                 // onMouseLeave={() => setOpenOptions(false)}
                 id="dropdown-menu"
-                ref={ref}
-                className={`z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 md:w-44 dark:bg-gray-700 absolute bottom-0 left-full`}
+                ref={popoverRef}
+                className={`z-40 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 md:w-44 dark:bg-gray-700 absolute bottom-0 ${props.pos}`}
             >
                 <ul
                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -43,8 +56,8 @@ const CardDialog = forwardRef((props:Props, ref:any) => {
                     </li>
                 </ul>
             </dialog>
-        );
-    }
-);
+        </button>
+    );
+};
 
 export default CardDialog;

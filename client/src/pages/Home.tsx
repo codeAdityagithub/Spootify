@@ -5,7 +5,6 @@ import MusicCard from "../components/card/MusicCard";
 import HorizontalCarousel from "../components/carousel/HorizontalCarousel";
 // import NavItem from "../components/navitem/NavItem";
 // import Player from "../components/player/Player";
-import AddSongDialog from "../components/addsongtolist/AddSongDialog";
 
 import { Song } from "../types";
 
@@ -19,29 +18,48 @@ import { PlaylistContext } from "../context/PlaylistContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+import { setPlaylistState } from "../redux/PlaylistSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store/Store";
+import { setCurrentSong } from "../redux/SongSlice";
+
+import AddSongDialog from "../components/addsongtolist/AddSongDialog"
+
 const Home = (): React.ReactNode => {
-    const { data, isError, isLoading } = useQuery({
+    const {
+        data: latestSongs,
+        isError,
+        isLoading,
+    } = useQuery({
         queryKey: ["latestSongs", "0"],
         queryFn: async () => {
-            const data = await axios
+            const data: Song[] = await axios
                 .get(`${import.meta.env.VITE_API_URL}/songs`)
-                .then((res) => res.data);
+                .then((res) => res.data.results);
             // console.log(data);
             return data;
         },
     });
 
-    const { setCurrentIndex, setPlaylist, setPlaylistId } =
-        useContext(PlaylistContext);
-    let latestSongs: Song[];
-
-    latestSongs = data && data.results;
+    // const { setCurrentIndex, setPlaylist, setPlaylistId } =
+    //     useContext(PlaylistContext);
+    const dispatch = useDispatch<AppDispatch>();
 
     // setting latest songs as playlist
     const handleSetLatest = (index: number) => {
-        latestSongs && setPlaylist(latestSongs);
-        setPlaylistId("0");
-        setCurrentIndex(index);
+        // latestSongs && setPlaylist(latestSongs);
+        // setPlaylistId("0");
+        // setCurrentIndex(index);
+
+        if (latestSongs) {
+            dispatch(
+                setPlaylistState({
+                    playlistLength: latestSongs.length,
+                    playlistId: "0",
+                    currentIndex: index,
+                })
+            );
+        }
     };
 
     const genres = Object.keys(Genre).filter((key) => !isNaN(Number(key)));
@@ -52,7 +70,6 @@ const Home = (): React.ReactNode => {
         >
             {/* page */}
             <AddSongDialog />
-
             {isError && (
                 <HorizontalCarousel title="Latest Songs">
                     <p>Failed to get Songs! Make sure you have internet</p>
@@ -63,7 +80,7 @@ const Home = (): React.ReactNode => {
                     <CardNotLoaded />
                 </HorizontalCarousel>
             )}
-            {data && (
+            {latestSongs && (
                 <HorizontalCarousel title="Latest Songs" playlistId="0">
                     <div className="flex flex-row overflow-auto pl-2 gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
                         {latestSongs.map((song, index) => (

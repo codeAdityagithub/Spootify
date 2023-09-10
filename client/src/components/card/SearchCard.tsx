@@ -3,25 +3,33 @@ import { useRef, useContext } from "react";
 import { Song } from "../../types";
 import { SongContext } from "../../context/SongContext";
 import { PlaylistContext } from "../../context/PlaylistContext";
+import { setCurrentSong } from "../../redux/SongSlice";
+import { setPlaylistState } from "../../redux/PlaylistSlice";
+
+
 
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store/Store";
 
 const SearchCard = ({ song }: { song: Song }): React.ReactNode => {
     const imgRef = useRef<HTMLImageElement>(null);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const { setCurrentSong } = useContext(SongContext);
-    const { setPlaylist, setPlaylistId, setCurrentIndex } =
-        useContext(PlaylistContext);
+    // const { setCurrentSong } = useContext(SongContext);
+    // const { setPlaylist, setPlaylistId, setCurrentIndex } =
+    //     useContext(PlaylistContext);
 
     return (
         <div className="flex rounded-md snap-center p-1 md:p-2 md:transition-colors ease-in-out duration-300 bg-secDark md:hover:bg-[#282828]">
             <div
                 tabIndex={0}
                 onClick={() => {
-                    setCurrentSong(song);
-                    setPlaylist([]);
-                    setPlaylistId("");
-                    setCurrentIndex(0);
+                    dispatch(setCurrentSong(song));
+                    dispatch(setPlaylistState({playlist:[], playlistId:"", currentIndex:0}))
+                    // setPlaylist([]);
+                    // setPlaylistId("");
+                    // setCurrentIndex(0);
                 }}
                 className={`relative group w-full flex items-start gap-1 lg:gap-3 justify-center flex-row `}
             >
