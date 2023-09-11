@@ -54,6 +54,7 @@ const Home = (): React.ReactNode => {
         if (latestSongs) {
             dispatch(
                 setPlaylistState({
+                    queue:latestSongs,
                     playlistLength: latestSongs.length,
                     playlistId: "0",
                     currentIndex: index,

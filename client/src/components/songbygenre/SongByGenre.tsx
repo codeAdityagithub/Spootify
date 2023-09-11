@@ -25,13 +25,16 @@ const SongByGenre = ({ genre }: { genre: string }) => {
     });
     // const { setCurrentIndex, setPlaylist, setPlaylistId } =
     //     useContext(PlaylistContext);
-    const dispatch = useDispatch<AppDispatch>()
-        
+    const dispatch = useDispatch<AppDispatch>();
 
-    const { data:songs, isError, isLoading } = useQuery({
+    const {
+        data: songs,
+        isError,
+        isLoading,
+    } = useQuery({
         queryKey: ["songByGenre", genre],
         queryFn: async () => {
-            const data:Song[] = await axios
+            const data: Song[] = await axios
                 .get(`${import.meta.env.VITE_API_URL}/songs/${genre}`)
                 .then((res) => res.data.results);
             // console.log(data);
@@ -44,8 +47,15 @@ const SongByGenre = ({ genre }: { genre: string }) => {
         // songs && setPlaylist(songs);
         // setPlaylistId(genre);
         // setCurrentIndex(index);
-        if(songs){
-            dispatch(setPlaylistState({playlistLength:songs.length, playlistId:genre, currentIndex:index}))
+        if (songs) {
+            dispatch(
+                setPlaylistState({
+                    queue: songs,
+                    playlistLength: songs.length,
+                    playlistId: genre,
+                    currentIndex: index,
+                })
+            );
         }
     };
 

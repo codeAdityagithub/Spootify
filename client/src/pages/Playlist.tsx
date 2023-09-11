@@ -26,6 +26,7 @@ const Playlist = ({}: Props) => {
     const { currentSong } = useContext(SongContext);
 
     const dispatch = useDispatch<AppDispatch>();
+    const p_id = useSelector((state:RootState)=>state.playlist.playlistId)
 
     let playlistName = "Latest";
     if (playlistId !== "0") {
@@ -62,7 +63,7 @@ const Playlist = ({}: Props) => {
 
     useEffect(() => {
         if (data) {
-            playlistId != null &&
+            playlistId != null && p_id!=playlistId &&
                 dispatch(
                     setPlaylistState({
                         queue: data.pages?.flatMap(
