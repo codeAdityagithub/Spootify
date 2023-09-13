@@ -32,7 +32,7 @@ const navItems = [
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
     const [sidebarState, setSidebarState] = useState<State>("closed");
     const _id = useSelector((state: RootState) => state.user._id);
-    const { setAuthStatus } = useContext(AxiosContext);
+    const { authStatus, setAuthStatus } = useContext(AxiosContext);
     const dispatch = useDispatch();
 
     const queryClient = useQueryClient();
@@ -63,6 +63,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
     const handleState = () => {
         setSidebarState((prev) => (prev === "open" ? "closed" : "open"));
+    };
+    const closeSidebar = () => {
+        setSidebarState("closed");
     };
     const open = (): Boolean => {
         return sidebarState === "open";
@@ -109,6 +112,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link
+                                onClick={closeSidebar}
                                 to="/"
                                 className="flex items-center justify-center p-2 text-textDark-200 rounded-md hover:bg-gray-700 group"
                             >
@@ -126,6 +130,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         </li>
                         <li>
                             <Link
+                                onClick={closeSidebar}
                                 to="/search"
                                 className="flex items-center justify-center  p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
                             >
@@ -142,32 +147,38 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                                 </span>
                             </Link>
                         </li>
-                        <li>
-                            <button
-                                onClick={() => mutate()}
-                                className="flex w-full items-center justify-start cursor-pointer p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
-                            >
-                                {/* svg */}
-                                <LogoutIcon
-                                    className="text-red-400"
-                                    fontSize={`${open() ? "medium" : "large"}`}
-                                />
-                                <span
-                                    className={`flex-1 ml-3 whitespace-nowrap text-left ${
-                                        open() ? "" : "md:hidden"
-                                    }`}
+                        {/* check if auth */}
+                        {authStatus === "authenticated" ? (
+                            <li>
+                                <a
+                                    onClick={() => {
+                                        mutate();
+                                        closeSidebar();
+                                    }}
+                                    className="flex w-full items-center justify-start cursor-pointer p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
                                 >
-                                    Logout
-                                </span>
-                            </button>
-                        </li>
+                                    {/* svg */}
+                                    <LogoutIcon
+                                        className="text-red-400"
+                                        fontSize={`${
+                                            open() ? "medium" : "large"
+                                        }`}
+                                    />
+                                    <span
+                                        className={`flex-1 ml-3 whitespace-nowrap text-left ${
+                                            open() ? "" : "md:hidden"
+                                        }`}
+                                    >
+                                        Logout
+                                    </span>
+                                </a>
+                            </li>
+                        ) : null}
                         {isError && (
                             <p className="text-red-500">Something went wrong</p>
                         )}
                         <li className="w-full h-[1px] bg-textDark-400"></li>
                     </ul>
-
-                    {/* Playlist */}
 
                     <YourPlaylists open={open} />
                 </div>

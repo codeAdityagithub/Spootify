@@ -32,7 +32,10 @@ const CardDialog = (props: Props) => {
         >
             <MoreVertIcon className="text-white" />
             <dialog
-                // onMouseLeave={() => setOpenOptions(false)}
+                onMouseLeave={() => {
+                    setOpenOptions(false);
+                    popoverRef?.current?.close();
+                }}
                 id="dropdown-menu"
                 ref={popoverRef}
                 className={`z-40 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 md:w-44 dark:bg-gray-700 absolute bottom-0 ${props.pos}`}

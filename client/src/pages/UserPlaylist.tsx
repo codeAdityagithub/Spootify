@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // import { Song } from "../types";
 // import { Genre } from "../enums";
@@ -125,21 +125,23 @@ const UserPlaylist = (props: Props) => {
                         </div>
                     </div>
                 ) : null}
-                {currentSong && (
-                    <>
-                        <CardDialog
-                            song={currentSong}
-                            pos="-left-44 md:-left-52"
-                        />
-                    </>
-                )}
             </div>
             {/* playlist items */}
             <div className="min-h-[calc(100vh-400px)] flex flex-col items-center justify-start gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
-                {data &&
-                    data.songs.map((song, index) => (
+                {data?.songs.length != 0 ? (
+                    data?.songs.map((song, index) => (
                         <PlaylistCard key={index} song={song} index={index} />
-                    ))}
+                    ))
+                ) : (
+                    <>
+                        <div className="text-xl text-textDark-200">
+                            Add Songs to enjoy your playlist
+                        </div>
+                        <Link to={"/"} className="button">
+                            go to home
+                        </Link>
+                    </>
+                )}
             </div>
         </div>
     );

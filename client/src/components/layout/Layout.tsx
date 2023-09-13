@@ -18,6 +18,8 @@ import { Provider } from "react-redux";
 
 import { useRef } from "react";
 
+import { Toaster } from "react-hot-toast";
+
 const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
 });
@@ -32,9 +34,8 @@ const Layout = () => {
                     <AxiosContextProvider>
                         <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
                             {/* search bar */}
-                            
+                            <Toaster position="bottom-center" />
                             <Sidebar>
-                                
                                 <Outlet context={dialogRef} />
                                 <Player />
                             </Sidebar>

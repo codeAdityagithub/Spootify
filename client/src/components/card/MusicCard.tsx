@@ -30,12 +30,11 @@ const MusicCard = ({
 
     const [openOptions, setOpenOptions] = useState(false);
 
-    const { setCurrentSong } = useContext(SongContext);
+    const { currentSong, setCurrentSong } = useContext(SongContext);
     // const { setSelectedSong } = useContext(PlaylistContext);
     const { currentIndex } = useSelector((state: RootState) => state.playlist);
     const dispatch = useDispatch<AppDispatch>();
 
-    const dialogRef = useOutletContext<React.RefObject<HTMLDialogElement>>();
     const popoverRef = useRef<HTMLDialogElement>(null);
 
     const handleClick = () => {
@@ -50,7 +49,12 @@ const MusicCard = ({
     return (
         <div
             onMouseLeave={clickOutside}
-            className="relative min-w-[181px] max-w-[181px] flex items-center justify-start flex-col rounded-md snap-center bg-secDark p-1 pb-10 md:p-2 md:pb-10 lg:p-4 lg:pb-6 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]"
+            className={
+                "relative min-w-[181px] max-w-[181px] flex items-center justify-start flex-col rounded-md snap-center p-1 pb-10 md:p-2 md:pb-10 lg:p-4 lg:pb-6 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]" +
+                (currentSong?.name == song.name
+                    ? " bg-[#282828]"
+                    : " bg-secDark")
+            }
         >
             <div
                 className="relative group cursor-pointer"
@@ -69,7 +73,12 @@ const MusicCard = ({
                 />
                 <span
                     onClick={() => setCurrentSong(song)}
-                    className="hidden lg:absolute w-12 h-12 rounded-full bg-green-500 hover:bg-green-400 text-baseDark right-2 bottom-0 lg:flex lg:items-center lg:justify-center lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:bottom-2 transition-all ease-in-out duration-300 "
+                    className={
+                        "hidden lg:absolute w-12 h-12 rounded-full hover:bg-green-400 text-baseDark right-2 lg:flex lg:items-center lg:justify-center lg:group-hover:opacity-100 lg:group-hover:bottom-2 transition-all ease-in-out duration-300" +
+                        (currentSong?.name == song.name
+                            ? " bg-green-400 bottom-2 opacity-100"
+                            : " bg-green-500 lg:opacity-0 bottom-0")
+                    }
                 >
                     <PlayArrowRoundedIcon fontSize="large" />
                 </span>

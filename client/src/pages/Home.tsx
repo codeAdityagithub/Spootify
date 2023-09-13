@@ -41,8 +41,15 @@ const Home = (): React.ReactNode => {
         },
     });
 
-    // const { setCurrentIndex, setPlaylist, setPlaylistId } =
-    //     useContext(PlaylistContext);
+    // const handleScroll = (event:React.WheelEvent<HTMLDivElement>) => {
+    //     const container = event.target;
+    //     const scrollAmount = event.deltaY;
+    //     container.scrollTo({
+    //       top: 0,
+    //       left: container.scrollLeft + scrollAmount,
+    //       behavior: 'smooth'
+    //     });
+    //   };
     const dispatch = useDispatch<AppDispatch>();
 
     // setting latest songs as playlist

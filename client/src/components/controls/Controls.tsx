@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from "../../redux/store/Store";
 
 import { incCurrentIndex, decCurrentIndex } from "../../redux/PlaylistSlice";
 import { setCurrentSong } from "../../redux/SongSlice";
+import toast from "react-hot-toast";
 
 const speedVal = ["Normal", "1.25x", "1.5x", "1.75x", "2x"];
 
@@ -146,7 +147,11 @@ const Controls = () => {
                 hidden
                 autoPlay={true}
                 onEnded={handleEnd}
-                onError={handleEnd}
+                onError={() => {
+                    toast.error("Make sure you have stable Internet!", {
+                        className: "bg-secDark text-textDark-200",
+                    });
+                }}
             ></audio>
 
             {/* controls */}
