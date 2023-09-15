@@ -21,7 +21,7 @@ const Player = () => {
     );
 
     let color: Color | null;
-    color = currentSong ? currentSong.tags[1].color : null;
+    color = currentSong ? currentSong.tags[1]?.color : null;
 
     return (
         <div

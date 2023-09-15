@@ -37,7 +37,7 @@ const HorizontalCarousel = ({
                     </Link>
                 ) : null}
             </div>
-            <div className="flex flex-row gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x relative">
+            <div className="flex flex-row gap-2 md:gap-3 lg:gap-4 scroll-smooth snap-x relative">
                 {children}
             </div>
         </div>

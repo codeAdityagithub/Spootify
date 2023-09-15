@@ -90,7 +90,7 @@ const Home = (): React.ReactNode => {
             )}
             {latestSongs && (
                 <HorizontalCarousel title="Latest Songs" playlistId="0">
-                    <div className="flex flex-row overflow-auto pl-2 gap-2 md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
+                    <div className="flex flex-row overflow-auto p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x">
                         {latestSongs.map((song, index) => (
                             <MusicCard
                                 key={index}

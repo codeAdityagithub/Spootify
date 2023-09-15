@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 @layer components {
+    .hoz-scrollbar::-webkit-scrollbar {
+       @apply hidden lg:block lg:h-3;
+    }
+
+    /* Track */
+    .hoz-scrollbar::-webkit-scrollbar-track {
+        @apply bg-secDark mt-2;
+    }
+
+    /* Handle */
+    .hoz-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    .hoz-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
     .button {
         @apply p-2 rounded-lg text-inherit text-textDark-200  border border-blue-300 hover:ring-2 cursor-pointer transition-all;
     }
