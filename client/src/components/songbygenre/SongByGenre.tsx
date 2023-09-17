@@ -1,7 +1,3 @@
-import { useContext } from "react";
-
-// import axios from "axios";
-
 import { useInView } from "react-intersection-observer";
 
 import { Song } from "../../types";
