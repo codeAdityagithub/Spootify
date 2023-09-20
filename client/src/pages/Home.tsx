@@ -23,7 +23,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store/Store";
 import { setCurrentSong } from "../redux/SongSlice";
 
-import AddSongDialog from "../components/addsongtolist/AddSongDialog"
+import AddSongDialog from "../components/addsongtolist/AddSongDialog";
 
 const Home = (): React.ReactNode => {
     const {
@@ -61,7 +61,7 @@ const Home = (): React.ReactNode => {
         if (latestSongs) {
             dispatch(
                 setPlaylistState({
-                    queue:latestSongs,
+                    queue: latestSongs,
                     playlistLength: latestSongs.length,
                     playlistId: "0",
                     currentIndex: index,

@@ -1,6 +1,5 @@
-import { forwardRef, useContext, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { PlaylistContext } from "../../context/PlaylistContext";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { setSelectedSong } from "../../redux/PlaylistSlice";

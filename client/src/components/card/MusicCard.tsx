@@ -1,18 +1,15 @@
-import { useRef, useContext, useState, useEffect } from "react";
+import { useRef, useContext } from "react";
 
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { Song } from "../../types";
 import { SongContext } from "../../context/SongContext";
-import { useOutletContext } from "react-router-dom";
-import { PlaylistContext } from "../../context/PlaylistContext";
 import CardDialog from "./CardDialog";
 
 // import { setCurrentSong } from "../../redux/SongSlice";
-import { setCurrentIndex, setSelectedSong } from "../../redux/PlaylistSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store/Store";
+import { setCurrentIndex } from "../../redux/PlaylistSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store/Store";
 // import { PlaylistContext } from "../../context/PlaylistContext";
 
 // type Props = {};
@@ -28,27 +25,21 @@ const MusicCard = ({
 }): React.ReactNode => {
     const imgRef = useRef<HTMLImageElement>(null);
 
-    const [openOptions, setOpenOptions] = useState(false);
 
     const { currentSong, setCurrentSong } = useContext(SongContext);
     // const { setSelectedSong } = useContext(PlaylistContext);
-    const { currentIndex } = useSelector((state: RootState) => state.playlist);
+    // const { currentIndex } = useSelector((state: RootState) => state.playlist);
     const dispatch = useDispatch<AppDispatch>();
 
-    const popoverRef = useRef<HTMLDialogElement>(null);
 
     const handleClick = () => {
         setCurrentSong(song);
         dispatch(setCurrentIndex(index));
     };
-    const clickOutside = () => {
-        setOpenOptions(false);
-        popoverRef.current?.close();
-    };
+   
 
     return (
         <div
-            onMouseLeave={clickOutside}
             className={
                 "relative min-w-[181px] max-w-[181px] flex items-center justify-start flex-col rounded-md snap-center p-1 pb-10 md:p-2 md:pb-10 lg:p-4 lg:pb-6 md:transition-colors ease-in-out duration-300 md:hover:bg-[#282828]" +
                 (currentSong?.name == song.name

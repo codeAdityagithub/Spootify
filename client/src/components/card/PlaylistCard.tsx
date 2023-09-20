@@ -9,7 +9,6 @@ import { AppDispatch, RootState } from "../../redux/store/Store";
 
 import { setCurrentIndex } from "../../redux/PlaylistSlice";
 import { SongContext } from "../../context/SongContext";
-import CardDialog from "./CardDialog";
 // type Props = {};
 
 const PlaylistCard = ({
@@ -28,33 +27,12 @@ const PlaylistCard = ({
     const dispatch = useDispatch<AppDispatch>();
 
     const scrollToCenter = () => {
-        if (currentIndex !== index) {
-            return;
-        }
-        const element = divRef.current;
-
-        if (element) {
-            const elementRect = element.getBoundingClientRect();
-            const elementHeight = elementRect.height;
-            const windowHeight = window.innerHeight;
-            const scrollY = window.scrollY || window.scrollY;
-
-            // Calculate the position to scroll to (center of the screen)
-            const scrollPosition =
-                elementRect.top +
-                scrollY +
-                elementHeight / 2 -
-                windowHeight / 2;
-
-            // Scroll to the calculated position
-            window.scrollTo({
-                top: scrollPosition,
-                behavior: "smooth", // Use 'auto' for instant scrolling without smooth animation
-            });
+        if (currentIndex === index) {
+            divRef.current?.scrollIntoView({behavior:"smooth", block:"center"});
         }
     };
     useEffect(() => {
-        // scrollToCenter();
+        scrollToCenter();
         // console.log(index === currentIndex);
 
         if (currentIndex === index) setCurrentSong(song);

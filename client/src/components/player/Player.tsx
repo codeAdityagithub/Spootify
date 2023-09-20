@@ -5,26 +5,53 @@ import { useContext, useEffect, useState } from "react";
 // import { SongContext } from "../../context/SongContext";
 import Controls from "../controls/Controls";
 // import { PlaylistContext } from "../../context/PlaylistContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { Color } from "../../types";
 import { RootState } from "../../redux/store/Store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SongContext } from "../../context/SongContext";
+import { setPlaylistState } from "../../redux/PlaylistSlice";
 
 const Player = () => {
     const { currentSong } = useContext(SongContext);
     // const { currentSong } = useSelector((state: RootState) => state.song);
+    const navigate = useNavigate();
+    const location = useLocation();
     const playlistId = useSelector(
         (state: RootState) => state.playlist.playlistId
     );
-
+    const dispatch = useDispatch();
+    const { setCurrentSong } = useContext(SongContext);
+    const closePlayer = () => {
+        // console.log()
+        setCurrentSong(null);
+        dispatch(
+            setPlaylistState({
+                currentIndex: 0,
+                playlistId: "",
+                playlistLength: 0,
+                queue: [],
+            })
+        );
+    };
     let color: Color | null;
     color = currentSong ? currentSong.tags[1]?.color : null;
 
     return (
         <div
+            onDoubleClick={() =>
+                navigate(
+                    `${
+                        isNaN(Number(playlistId))
+                            ? "/userplaylist/"
+                            : "/playlist/"
+                    }${playlistId}`
+                )
+            }
             style={{
                 background: `linear-gradient(rgba(${color ? color.r : 0},${
                     color ? color.g : 0
@@ -61,16 +88,29 @@ const Player = () => {
                             </span>
                         </div>
                         {playlistId !== "" ? (
-                            <Link
-                                to={`${
-                                    isNaN(Number(playlistId))
-                                        ? "/userplaylist/"
-                                        : "/playlist/"
-                                }${playlistId}`}
-                                className=" rounded-md p-1 absolute right-0 top-0 bg-textDark-800"
-                            >
-                                <ArrowOutwardRoundedIcon fontSize="medium" />
-                            </Link>
+                            <div className="absolute right-0 top-0 flex gap-2">
+                                <Link
+                                    title="Visit Playlist"
+                                    to={`${
+                                        isNaN(Number(playlistId))
+                                            ? "/userplaylist/"
+                                            : "/playlist/"
+                                    }${playlistId}`}
+                                    className="p-1 rounded-md bg-textDark-800"
+                                >
+                                    <ArrowOutwardRoundedIcon fontSize="medium" />
+                                </Link>
+                                {location.pathname.split("/")[1] !==
+                                "playlist" ? (
+                                    <button
+                                        onClick={closePlayer}
+                                        title="Close Player"
+                                        className="p-1 rounded-md bg-textDark-800"
+                                    >
+                                        <CloseIcon fontSize="medium" />
+                                    </button>
+                                ) : null}
+                            </div>
                         ) : null}
                     </div>
                     <Controls />

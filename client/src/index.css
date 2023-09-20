@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-    .hoz-scrollbar::-webkit-scrollbar {
-       @apply hidden lg:block lg:h-3;
+    .hoz-scrollbar {
+        @apply transition-all;
     }
+    .hoz-scrollbar::-webkit-scrollbar {
+        @apply hidden lg:block lg:h-3;
+    }
+    /* .hoz-scrollbar:hover::-webkit-scrollbar {
+        @apply hidden lg:block lg:h-3;
+    } */
 
     /* Track */
     .hoz-scrollbar::-webkit-scrollbar-track {
@@ -14,13 +20,13 @@
 
     /* Handle */
     .hoz-scrollbar::-webkit-scrollbar-thumb {
-        background: #888;
+        background: #555;
         border-radius: 5px;
     }
 
     /* Handle on hover */
     .hoz-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        background: #888;
     }
 
     .button {

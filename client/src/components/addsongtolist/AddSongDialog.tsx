@@ -16,7 +16,6 @@ import {  useSelector } from "react-redux";
 import {  RootState } from "../../redux/store/Store";
 import Options from "../yourplaylist/Options";
 
-type Props = {};
 
 type mutationType = {
     mutate: UseMutateFunction<any, unknown, void, unknown>;
@@ -52,7 +51,7 @@ const Dialog = () => {
         },
     });
 
-    const { mutate, isLoading, isError, error, isSuccess }: mutationType =
+    const { mutate, isError, error, isSuccess }: mutationType =
         useMutation({
             mutationFn: async () => {
                 await instance.post(
@@ -73,10 +72,10 @@ const Dialog = () => {
             },
         });
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        mutate();
-    };
+    // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     mutate();
+    // };
 
     return (
         <dialog
