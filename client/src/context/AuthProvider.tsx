@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { UserType } from "../types";
 
 interface AuthType extends UserType {

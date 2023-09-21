@@ -1,12 +1,9 @@
-import { useRef, useContext } from "react";
+import { useContext, useRef } from "react";
 
-import { Song } from "../../types";
 import { SongContext } from "../../context/SongContext";
-import { PlaylistContext } from "../../context/PlaylistContext";
-import { setCurrentSong } from "../../redux/SongSlice";
 import { setPlaylistState } from "../../redux/PlaylistSlice";
+import { Song } from "../../types";
 
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store/Store";
 import CardDialog from "./CardDialog";

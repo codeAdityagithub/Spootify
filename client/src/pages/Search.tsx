@@ -2,8 +2,8 @@ import { useEffect } from "react";
 // import { useSearchParams } from "react-router-dom";
 import { Song } from "../types";
 
-import SearchCard from "../components/card/SearchCard";
 import AddSongDialog from "../components/addsongtolist/AddSongDialog";
+import SearchCard from "../components/card/SearchCard";
 
 import { Genre } from "../enums";
 

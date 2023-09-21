@@ -1,21 +1,17 @@
 import {
     UseMutateFunction,
-    useMutation,
-    useQueryClient,
+    useMutation
 } from "@tanstack/react-query";
 import axios from "axios";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthProvider";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserDetails } from "../redux/UserSlice";
 
-import { UserType } from "../types";
 import { AxiosContext } from "../context/AxiosProvider";
-import { RootState } from "../redux/store/Store";
+import { UserType } from "../types";
 
-type Props = {};
 
 type userType = {
     email: string;
@@ -47,7 +43,7 @@ const Login = () => {
     });
     const navigate = useNavigate();
     // const { setCurrentUser } = useContext(AuthContext);
-    const userState = useSelector((state: RootState) => state.user);
+    // const userState = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
     const { authStatus, setAuthStatus } = useContext(AxiosContext);
     const { mutate, isLoading, isError, error, isSuccess }: mutationType =

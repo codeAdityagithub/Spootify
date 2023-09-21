@@ -4,9 +4,9 @@ import { UserType } from "../types";
 import axios, { AxiosInstance } from "axios";
 import jwtDecode from "jwt-decode";
 
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../redux/store/Store";
+import { useDispatch, useSelector } from "react-redux";
 import { setAccessToken, setUserDetails } from "../redux/UserSlice";
+import type { RootState } from "../redux/store/Store";
 // import { AuthContext } from "./AuthProvider";
 
 // interface AuthType extends UserType {
@@ -30,7 +30,7 @@ export const AxiosContext = createContext<authContext>(null!);
 
 const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
     // const { accessToken, setCurrentUser } = useContext(AuthContext);
-    const { accessToken, ...userDetails } = useSelector(
+    const { accessToken } = useSelector(
         (state: RootState) => state.user
     );
     const [authStatus, setAuthStatus] = useState<statusType>("unauthenticated");

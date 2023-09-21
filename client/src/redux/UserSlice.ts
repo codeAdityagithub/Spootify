@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { UserType } from "../types";
 
@@ -20,7 +20,11 @@ export const userSlice = createSlice({
       state.accessToken = action.payload
     },
     setUserDetails: (state, action: PayloadAction<UserType>)=>{
-        state = {...action.payload}
+        state._id=action.payload._id
+        state.accessToken=action.payload.accessToken
+        state.username=action.payload.username
+        state.email=action.payload.email
+        state.premiumSubscriber=action.payload.premiumSubscriber
     }
   },
 })

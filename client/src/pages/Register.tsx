@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { AxiosContext } from "../context/AxiosProvider";
 
-type Props = {};
 
 type userType = {
     username: string;

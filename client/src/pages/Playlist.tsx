@@ -1,25 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 
 import { Song } from "../types";
-import { Genre } from "../enums";
 
 import PlaylistCard from "../components/card/PlaylistCard";
 import { SongContext } from "../context/SongContext";
 // import getPlaylistData from "../hooks/usePlaylistData";
 
-import { setPlaylistState, updatePlaylistLength } from "../redux/PlaylistSlice";
+import { setPlaylistState } from "../redux/PlaylistSlice";
 
 import AddSongDialog from "../components/addsongtolist/AddSongDialog";
 
 type Props = {};
 
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store/Store";
 import CardDialog from "../components/card/CardDialog";
+import { AppDispatch, RootState } from "../redux/store/Store";
 
 const Playlist = ({}: Props) => {
     const { playlistId } = useParams();
@@ -28,15 +27,13 @@ const Playlist = ({}: Props) => {
     const dispatch = useDispatch<AppDispatch>();
     const p_id = useSelector((state:RootState)=>state.playlist.playlistId)
 
-    let playlistName = "Latest";
-    if (playlistId !== "0") {
-        playlistName = Genre[Number(playlistId)];
-    }
+    // let playlistName = "Latest";
+    // if (playlistId !== "0") {
+    //     playlistName = Genre[Number(playlistId)];
+    // }
 
     const {
         data,
-        error,
-        status,
         hasNextPage,
         isFetchingNextPage,
         fetchNextPage,
@@ -89,18 +86,13 @@ const Playlist = ({}: Props) => {
             <AddSongDialog />
             <div
                 className={`w-full h-[500px] md:h-[350px] flex items-end justify-start relative mb-2 overflow-hidden`}
-                // style={{
-                //     background: `linear-gradient(rgba(${color ? color.r : 0},${
-                //         color ? color.g : 0
-                //     },${color ? color.b : 0},1), rgba(0, 0, 0, 0.1)`,
-                // }}
+              
             >
                 {currentSong ? (
                     <img
                         src={currentSong.coverUrl}
                         alt={currentSong.name}
                         className="relative self-stretch w-full top-1/2 -translate-y-1/2 blur-sm brightness-50 select-none"
-                        // className="absolute top-0 left-1/2 -translate-x-1/2 "
                     />
                 ) : null}
                 {currentSong ? (
@@ -135,23 +127,7 @@ const Playlist = ({}: Props) => {
             </div>
             {/* playlist items */}
             <div className="min-h-[calc(100vh-400px)] flex flex-col items-center justify-center gap-2 overflow-auto md:gap-3 lg:gap-4 no-scrollbar scroll-smooth snap-x">
-                {/* {songs && (playlist.length == 0 || p_id !== playlistId)
-                    ? songs.map((song, index) => (
-                          <PlaylistCard
-                              key={index}
-                              song={song}
-                              index={index}
-                              isCurrent={currentIndex === index}
-                          />
-                      ))
-                    : playlist.map((song, index) => (
-                          <PlaylistCard
-                              key={index}
-                              song={song}
-                              index={index}
-                              isCurrent={currentIndex === index}
-                          />
-                      ))} */}
+               
                 {data &&
                     data.pages
                         ?.flatMap((page) => page.results)
@@ -167,9 +143,7 @@ const Playlist = ({}: Props) => {
                         disabled={isFetchingNextPage}
                         className="button disabled:text-textDark-500"
                         onClick={() => {
-                            // setPage((prev) => prev + 1);
-                            // addMore();
-                            // updatePlaylist();
+                           
                             fetchNextPage();
                         }}
                     >

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Mood, Genre } from "../../enums";
+import { Genre, Mood } from "../../enums";
 
-import { useNavigate } from "react-router-dom";
 
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import Search from "../../pages/Search";
@@ -13,7 +12,7 @@ interface formDataType {
 }
 
 const SearchBar = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [formData, setFormData] = useState<formDataType>({
         query: "",
         genre: "",

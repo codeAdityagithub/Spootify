@@ -1,5 +1,5 @@
-import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
 
 const Options = ({ open }: { open: () => Boolean }) => {

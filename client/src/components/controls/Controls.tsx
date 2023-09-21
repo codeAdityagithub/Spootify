@@ -1,23 +1,20 @@
-import React, { useState, useContext } from "react";
-import { useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 
-import { PlaylistContext } from "../../context/PlaylistContext";
 
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
 
 import Forward5Icon from "@mui/icons-material/Forward5";
 import Replay5Icon from "@mui/icons-material/Replay5";
 
-import { SongContext } from "../../context/SongContext";
 import { useDispatch, useSelector } from "react-redux";
+import { SongContext } from "../../context/SongContext";
 import { AppDispatch, RootState } from "../../redux/store/Store";
 
-import { incCurrentIndex, decCurrentIndex } from "../../redux/PlaylistSlice";
-import { setCurrentSong } from "../../redux/SongSlice";
 import toast from "react-hot-toast";
+import { decCurrentIndex, incCurrentIndex } from "../../redux/PlaylistSlice";
 
 const speedVal = ["Normal", "1.25x", "1.5x", "1.75x", "2x"];
 

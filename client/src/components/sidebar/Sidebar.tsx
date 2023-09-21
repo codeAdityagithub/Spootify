@@ -1,33 +1,31 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
-import { Link } from "react-router-dom";
-import YourPlaylists from "../yourplaylist/YourPlaylists";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthProvider";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosContext } from "../../context/AxiosProvider";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { AxiosContext } from "../../context/AxiosProvider";
 import { setUserDetails } from "../../redux/UserSlice";
 import { RootState } from "../../redux/store/Store";
+import YourPlaylists from "../yourplaylist/YourPlaylists";
 
-import AddSongDialog from "../addsongtolist/AddSongDialog";
 
 type State = "open" | "closed";
 
-const navItems = [
-    {
-        title: "Home",
-        icon: <HomeRoundedIcon />,
-        href: "/",
-    },
-];
+// const navItems = [
+//     {
+//         title: "Home",
+//         icon: <HomeRoundedIcon />,
+//         href: "/",
+//     },
+// ];
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
     const [sidebarState, setSidebarState] = useState<State>("closed");
@@ -39,7 +37,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
     const { isError, mutate } = useMutation({
         mutationFn: async () => {
-            const res = await axios.get(
+            await axios.get(
                 `${import.meta.env.VITE_API_URL}/auth/logout`,
                 {
                     withCredentials: true,

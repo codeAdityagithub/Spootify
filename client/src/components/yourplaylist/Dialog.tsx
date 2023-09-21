@@ -5,13 +5,11 @@ import {
 } from "@tanstack/react-query";
 import React, { useContext, useState } from "react";
 import { AxiosContext } from "../../context/AxiosProvider";
-import { AuthContext } from "../../context/AuthProvider";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { RootState } from "../../redux/store/Store";
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/Store";
 
-type Props = {};
 
 type mutationType = {
     mutate: UseMutateFunction<any, unknown, void, unknown>;

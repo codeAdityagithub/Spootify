@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import { Link, useParams } from "react-router-dom";
 
@@ -7,7 +7,6 @@ import { Link, useParams } from "react-router-dom";
 
 import PlaylistCard from "../components/card/PlaylistCard";
 import { SongContext } from "../context/SongContext";
-import { PlaylistContext } from "../context/PlaylistContext";
 // import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 // import { AuthContext } from "../context/AuthProvider";
@@ -19,11 +18,9 @@ import { AppDispatch, RootState } from "../redux/store/Store";
 import { setPlaylistState } from "../redux/PlaylistSlice";
 // import { setCurrentSong } from "../redux/SongSlice";
 import { Song } from "../types";
-import CardDialog from "../components/card/CardDialog";
 
-type Props = {};
 
-const UserPlaylist = (props: Props) => {
+const UserPlaylist = () => {
     const { playlistId } = useParams();
     const token = useSelector((state: RootState) => state.user.accessToken);
     // const currentSong = useSelector((state: RootState) => state.song.currentSong);
@@ -44,7 +41,7 @@ const UserPlaylist = (props: Props) => {
     //     playlistId: p_id,
     // } = useContext(PlaylistContext);
 
-    const [playlistName, setPlaylistName] = useState("");
+    // const [playlistName, setPlaylistName] = useState("");
 
     const { data } = useQuery({
         queryKey: ["userPlaylist", playlistId],
@@ -68,7 +65,7 @@ const UserPlaylist = (props: Props) => {
 
     useEffect(() => {
         data?.songs.length === 0 && setCurrentSong(null);
-        data && setPlaylistName(data.name);
+        // data && setPlaylistName(data.name);
         if (data) {
             playlistId &&
                 dispatch(

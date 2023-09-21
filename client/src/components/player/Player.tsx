@@ -1,6 +1,6 @@
 // type Props = {};
 // import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 // import { SongContext } from "../../context/SongContext";
 import Controls from "../controls/Controls";
@@ -10,11 +10,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Color } from "../../types";
-import { RootState } from "../../redux/store/Store";
 import { useDispatch, useSelector } from "react-redux";
 import { SongContext } from "../../context/SongContext";
 import { setPlaylistState } from "../../redux/PlaylistSlice";
+import { RootState } from "../../redux/store/Store";
+import { Color } from "../../types";
 
 const Player = () => {
     const { currentSong } = useContext(SongContext);

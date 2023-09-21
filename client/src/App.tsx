@@ -1,10 +1,13 @@
 import React, { lazy, Suspense } from "react";
 
+
 const Home = lazy(() => import("./pages/Home"));
+// @ts-ignore
+const Register = lazy(() => import("./pages/Register"));
+// @ts-ignore
+const Login = lazy(() => import("./pages/Login"));
 const Playlist = lazy(() => import("./pages/Playlist"));
 const SearchBar = lazy(() => import("./components/searchbar/SearchBar"));
-const Register = lazy(() => import("./pages/Register"));
-const Login = lazy(() => import("./pages/Login"));
 
 import {
     createBrowserRouter,

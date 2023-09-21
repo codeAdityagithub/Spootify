@@ -1,5 +1,4 @@
-import { createContext, useRef, useState } from "react";
-import { Song } from "../types";
+import { createContext, useRef } from "react";
 
 export const context = createContext<
     React.MutableRefObject<HTMLDialogElement | null>

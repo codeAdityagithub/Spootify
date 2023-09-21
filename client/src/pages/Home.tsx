@@ -1,4 +1,3 @@
-import { useContext } from "react";
 // import { useState } from "react";
 
 import MusicCard from "../components/card/MusicCard";
@@ -11,17 +10,15 @@ import { Song } from "../types";
 import { Genre } from "../enums";
 // import SearchBar from "../components/searchbar/SearchBar";
 
-import SongByGenre from "../components/songbygenre/SongByGenre";
 import CardNotLoaded from "../components/cardnotloaded/CardNotLoaded";
-import { PlaylistContext } from "../context/PlaylistContext";
+import SongByGenre from "../components/songbygenre/SongByGenre";
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-import { setPlaylistState } from "../redux/PlaylistSlice";
 import { useDispatch } from "react-redux";
+import { setPlaylistState } from "../redux/PlaylistSlice";
 import { AppDispatch } from "../redux/store/Store";
-import { setCurrentSong } from "../redux/SongSlice";
 
 import AddSongDialog from "../components/addsongtolist/AddSongDialog";
 

@@ -4,10 +4,9 @@ import { Song } from "../../types";
 
 import MusicCard from "../card/MusicCard";
 import CardNotLoaded from "../cardnotloaded/CardNotLoaded";
-import { PlaylistContext } from "../../context/PlaylistContext";
 // import { SongContext } from "../../context/SongContext";
 
-import { setCurrentIndex, setPlaylistState } from "../../redux/PlaylistSlice";
+import { setPlaylistState } from "../../redux/PlaylistSlice";
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";

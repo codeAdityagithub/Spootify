@@ -1,17 +1,15 @@
-import { useContext, useEffect, useState, useRef } from "react";
-import { Link, redirect } from "react-router-dom";
-import { AuthContext } from "../../context/AuthProvider";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 import AddIcon from "@mui/icons-material/Add";
-import FeaturedPlayList from "@mui/icons-material/FeaturedPlayList";
 
 import { useQuery } from "@tanstack/react-query";
-import { AxiosContext } from "../../context/AxiosProvider";
-import Options from "./Options";
-import Dialog from "./Dialog";
-import { playlistSidebar } from "../../types";
 import { useSelector } from "react-redux";
+import { AxiosContext } from "../../context/AxiosProvider";
 import { RootState } from "../../redux/store/Store";
+import { playlistSidebar } from "../../types";
+import Dialog from "./Dialog";
+import Options from "./Options";
 
 type Props = {
     open: () => Boolean;

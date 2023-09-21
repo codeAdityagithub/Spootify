@@ -1,6 +1,6 @@
 // import { useState } from "react";
-import Player from "../player/Player";
 import { Outlet } from "react-router-dom";
+import Player from "../player/Player";
 // import { Song } from "../../types";
 import SongContextProvider from "../../context/SongContext";
 
@@ -12,8 +12,8 @@ import AxiosContextProvider from "../../context/AxiosProvider";
 // import AddSongDialog from "../addsongtolist/AddSongDialog";
 // import AddSongContext from "../../context/AddSongContext";
 
-import { store } from "../../redux/store/Store";
 import { Provider } from "react-redux";
+import { store } from "../../redux/store/Store";
 
 import { useRef } from "react";
 
