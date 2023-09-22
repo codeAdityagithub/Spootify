@@ -15,6 +15,7 @@ import { AxiosContext } from "../../context/AxiosProvider";
 import { setUserDetails } from "../../redux/UserSlice";
 import { RootState } from "../../redux/store/Store";
 import YourPlaylists from "../yourplaylist/YourPlaylists";
+import toast from "react-hot-toast";
 
 
 type State = "open" | "closed";
@@ -55,6 +56,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     premiumSubscriber: false,
                 })
             );
+            toast.success("Logged Out Succesfully!", {
+                className: "bg-secDark text-textDark-200",
+            });
             queryClient.invalidateQueries(["userPlaylists", _id]);
         },
     });
@@ -85,6 +89,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         ? " -translate-x-0 "
                         : " -translate-x-full md:-translate-x-0 md:w-20 "
                 }`}
+                onClick={closeSidebar}
             >
                 {/* CLOSE ICON */}
                 <button
@@ -110,7 +115,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link
-                                onClick={closeSidebar}
                                 to="/"
                                 className="flex items-center justify-center p-2 text-textDark-200 rounded-md hover:bg-gray-700 group"
                             >
@@ -128,7 +132,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         </li>
                         <li>
                             <Link
-                                onClick={closeSidebar}
                                 to="/search"
                                 className="flex items-center justify-center  p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
                             >
@@ -151,7 +154,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                                 <a
                                     onClick={() => {
                                         mutate();
-                                        closeSidebar();
                                     }}
                                     className="flex w-full items-center justify-start cursor-pointer p-2 rounded-lg text-textDark-200 hover:bg-gray-700 group"
                                 >
@@ -178,7 +180,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         <li className="w-full h-[1px] bg-textDark-400"></li>
                     </ul>
 
-                    <YourPlaylists open={open} />
+                    <YourPlaylists open={open}/>
                 </div>
             </aside>
 
@@ -187,7 +189,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     open()
                         ? " md:w-[calc(100%-256px)] md:ml-64 "
                         : " md:w-[calc(100%-48px)] md:ml-24 "
-                }relative h-screen overflow-y-auto no-scrollbar transition-all ease-linear`}
+                }relative h-[100vh] h-[100dvh] overflow-y-auto no-scrollbar transition-all ease-linear`}
             >
                 {children}
             </div>

@@ -1,8 +1,9 @@
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AxiosContext } from "../context/AxiosProvider";
+import toast from "react-hot-toast";
 
 
 type userType = {
@@ -37,7 +38,10 @@ const Register = () => {
     const { mutate, isLoading, isError, error }: mutationType = useMutation({
         mutationFn: createUser,
         onSuccess: () => {
-            redirect("/login");
+            toast.success("You've successfully registered.", {
+                className: "bg-secDark text-textDark-200",
+            });
+            navigate("/login");
         },
     });
 

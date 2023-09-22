@@ -4,9 +4,8 @@ import { UserType } from "../types";
 import axios, { AxiosInstance } from "axios";
 import jwtDecode from "jwt-decode";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAccessToken, setUserDetails } from "../redux/UserSlice";
-import type { RootState } from "../redux/store/Store";
 // import { AuthContext } from "./AuthProvider";
 
 // interface AuthType extends UserType {
@@ -30,9 +29,7 @@ export const AxiosContext = createContext<authContext>(null!);
 
 const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
     // const { accessToken, setCurrentUser } = useContext(AuthContext);
-    const { accessToken } = useSelector(
-        (state: RootState) => state.user
-    );
+    // const { accessToken } = useSelector((state: RootState) => state.user);
     const [authStatus, setAuthStatus] = useState<statusType>("unauthenticated");
     const instance = axios.create({
         headers: { "Content-Type": "application/json" },
@@ -44,6 +41,8 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
     instance.interceptors.request.use(
         async (config) => {
             let currentDate = new Date();
+            const accessToken = config.headers["authorization"].split(" ")[1];
+            // console.log(accessToken);
             if (accessToken === "") {
                 // no accessToken was there
                 //   getting refreshTOken and if not there then it will return unauthorized
@@ -54,6 +53,9 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
                     })
                     .then((res) => {
                         const newAccessToken = res.data.accessToken;
+
+                        const userData: any = jwtDecode(newAccessToken);
+
                         config.headers[
                             "authorization"
                         ] = `Bearer ${newAccessToken}`;
@@ -63,10 +65,18 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
                         //     ...prev,
                         //     accessToken: newAccessToken,
                         // }));
-                        dispatch(setAccessToken(newAccessToken));
+                        dispatch(
+                            setUserDetails({
+                                _id: userData._id,
+                                accessToken: newAccessToken,
+                                email: userData.email,
+                                premiumSubscriber: userData.premiumSubscriber,
+                                username: userData.username,
+                            })
+                        );
                     })
                     .catch((error) => {
-                        console.log(error);
+                        console.log(error.message);
                         setAuthStatus("unauthenticated");
                     });
                 return config;

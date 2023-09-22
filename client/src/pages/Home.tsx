@@ -82,7 +82,9 @@ const Home = (): React.ReactNode => {
             )}
             {isLoading && !isError && (
                 <HorizontalCarousel title="Latest Songs">
-                    <CardNotLoaded />
+                    <div className="flex flex-row overflow-auto p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x">
+                        <CardNotLoaded />
+                    </div>
                 </HorizontalCarousel>
             )}
             {latestSongs && (

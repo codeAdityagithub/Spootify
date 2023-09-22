@@ -3,13 +3,15 @@ import {
     useMutation
 } from "@tanstack/react-query";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../redux/UserSlice";
 
+import toast from "react-hot-toast";
 import { AxiosContext } from "../context/AxiosProvider";
+import { RootState } from "../redux/store/Store";
 import { UserType } from "../types";
 
 
@@ -43,15 +45,19 @@ const Login = () => {
     });
     const navigate = useNavigate();
     // const { setCurrentUser } = useContext(AuthContext);
-    // const userState = useSelector((state: RootState) => state.user);
+    const username = useSelector((state: RootState) => state.user.username);
     const dispatch = useDispatch();
     const { authStatus, setAuthStatus } = useContext(AxiosContext);
-    const { mutate, isLoading, isError, error, isSuccess }: mutationType =
+    const { mutate, isLoading, isError, error }: mutationType =
         useMutation({
             mutationFn: loginUser,
             onSuccess: (data: UserType) => {
                 setAuthStatus("authenticated");
+                toast.success(`Welcome back, ${username}!`, {
+                    className: "bg-secDark text-textDark-200",
+                });
                 dispatch(setUserDetails(data));
+                navigate("/");
             },
         });
 
@@ -63,9 +69,7 @@ const Login = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-    useEffect(() => {
-        isSuccess && navigate("/");
-    }, [isSuccess]);
+
 
     if (authStatus === "authenticated") return navigate("/");
 

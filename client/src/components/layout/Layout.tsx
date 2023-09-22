@@ -33,7 +33,7 @@ const Layout = () => {
                     <AxiosContextProvider>
                         <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
                             {/* search bar */}
-                            <Toaster position="bottom-center" />
+                            <Toaster position="top-center" />
                             <Sidebar>
                                 <Outlet context={dialogRef} />
                                 <Player />

@@ -137,12 +137,6 @@ router.post("/login", async (req, res) => {
         return res.status(500).send("Database Error, not able to save");
     }
 
-    // sending cookie through httpOnly
-    // res.header("Access-Control-Allow-Origin: http://localhost:5173/");
-    // res.header("Access-Control-Allow-Credentials: true");
-    // res.header("Access-Control-Allow-Methods: GET, POST");
-    // res.header("Access-Control-Allow-Headers: Content-Type, *");
-
     res.cookie("jwt", refreshToken, {
         // domain: "127.0.0.1",
         // path: "/",

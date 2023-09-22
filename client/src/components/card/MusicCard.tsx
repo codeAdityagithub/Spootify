@@ -65,10 +65,10 @@ const MusicCard = ({
                 <span
                     onClick={() => setCurrentSong(song)}
                     className={
-                        "hidden lg:absolute w-12 h-12 rounded-full hover:bg-green-400 text-baseDark right-2 lg:flex lg:items-center lg:justify-center lg:group-hover:opacity-100 lg:group-hover:bottom-2 transition-all ease-in-out duration-300" +
+                        "absolute w-12 h-12 rounded-full hover:bg-green-400 text-baseDark right-2 flex items-center justify-center group-hover:opacity-100 group-hover:bottom-2 transition-all ease-in-out duration-300" +
                         (currentSong?.name == song.name
                             ? " bg-green-400 bottom-2 opacity-100"
-                            : " bg-green-500 lg:opacity-0 bottom-0")
+                            : " bg-green-500 opacity-0 bottom-0")
                     }
                 >
                     <PlayArrowRoundedIcon fontSize="large" />
@@ -90,7 +90,7 @@ const MusicCard = ({
                 ))}
             </p>
 
-            <CardDialog song={song} pos="left-8" />
+            <CardDialog song={song} pos="-left-52 md:left-8" />
         </div>
     );
 };

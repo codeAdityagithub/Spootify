@@ -15,17 +15,7 @@ type Props = {
     open: () => Boolean;
 };
 
-// const getPlaylists = async (token: string) => {
-//     const res = await axiosInstance.get(
-//         `${import.meta.env.VITE_API_URL}/user/playlists`,
-//         {
-//             headers: { authorization: "Bearer " + token },
-//         }
-//     );
-//     return res.data;
-// };
-
-const YourPlaylists = ({ open }: Props) => {
+const YourPlaylists = ({ open}: Props) => {
     const { accessToken: token, _id } = useSelector(
         (state: RootState) => state.user
     );
