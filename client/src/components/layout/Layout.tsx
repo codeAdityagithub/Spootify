@@ -31,7 +31,7 @@ const Layout = () => {
             <QueryClientProvider client={queryClient}>
                 <SongContextProvider>
                     <AxiosContextProvider>
-                        <div className="w-full h-screen flex flex-row bg-baseDark no-scrollbar">
+                        <div className="w-full h-[100vh] h-[100dvh] flex flex-row bg-baseDark no-scrollbar">
                             {/* search bar */}
                             <Toaster position="top-center" />
                             <Sidebar>
