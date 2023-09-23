@@ -57,7 +57,7 @@ const SongByGenre = ({ genre }: { genre: string }) => {
     return (
         <div
             ref={ref}
-            className="flex flex-row overflow-auto p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x"
+            className="flex flex-row overflow-x-scroll p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x"
         >
             {isError && <p>Failed to get Songs! Make sure you have internet</p>}
             {isLoading && !isError && <CardNotLoaded />}

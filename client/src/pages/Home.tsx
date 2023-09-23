@@ -82,14 +82,14 @@ const Home = (): React.ReactNode => {
             )}
             {isLoading && !isError && (
                 <HorizontalCarousel title="Latest Songs">
-                    <div className="flex flex-row overflow-auto p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x">
+                    <div className="flex flex-row overflow-x-scroll p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x">
                         <CardNotLoaded />
                     </div>
                 </HorizontalCarousel>
             )}
             {latestSongs && (
                 <HorizontalCarousel title="Latest Songs" playlistId="0">
-                    <div className="flex flex-row overflow-auto p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x">
+                    <div className="flex flex-row overflow-x-scroll p-2 gap-2 md:gap-3 lg:gap-4 hoz-scrollbar scroll-smooth snap-x">
                         {latestSongs.map((song, index) => (
                             <MusicCard
                                 key={index}

@@ -84,7 +84,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             </button>
 
             <aside
-                className={`absolute border-r border-textDark-800 top-0 left-0 z-40 w-64 h-screen ease-linear transition-all${
+                className={`absolute border-r border-textDark-800 top-0 left-0 z-40 w-64 h-[100dvh] ease-linear transition-all${
                     open()
                         ? " -translate-x-0 "
                         : " -translate-x-full md:-translate-x-0 md:w-20 "
@@ -189,7 +189,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     open()
                         ? " md:w-[calc(100%-256px)] md:ml-64 "
                         : " md:w-[calc(100%-48px)] md:ml-24 "
-                }relative h-[100vh] h-[100dvh] overflow-y-auto no-scrollbar transition-all ease-linear`}
+                }relative h-[100dvh] overflow-y-auto no-scrollbar transition-all ease-linear`}
             >
                 {children}
             </div>
