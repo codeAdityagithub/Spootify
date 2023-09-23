@@ -17,7 +17,6 @@ import { RootState } from "../../redux/store/Store";
 import YourPlaylists from "../yourplaylist/YourPlaylists";
 import toast from "react-hot-toast";
 
-
 type State = "open" | "closed";
 
 // const navItems = [
@@ -38,12 +37,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
     const { isError, mutate } = useMutation({
         mutationFn: async () => {
-            await axios.get(
-                `${import.meta.env.VITE_API_URL}/auth/logout`,
-                {
-                    withCredentials: true,
-                }
-            );
+            await axios.get(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+                withCredentials: true,
+            });
         },
         onSuccess: () => {
             setAuthStatus("unauthenticated");
@@ -89,7 +85,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         ? " -translate-x-0 "
                         : " -translate-x-full md:-translate-x-0 md:w-20 "
                 }`}
-                onClick={closeSidebar}
             >
                 {/* CLOSE ICON */}
                 <button
@@ -98,7 +93,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     }top-1/2 -translate-x-1/2 rounded-md bg-textDark-800 h-14 p-0`}
                     onClick={handleState}
                 >
-                    {" "}
                     {open() ? (
                         <ArrowLeftRoundedIcon
                             className="text-textDark-200"
@@ -111,7 +105,10 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         />
                     )}
                 </button>
-                <div className="h-full px-3 py-4 overflow-y-auto bg-secDark no-scrollbar">
+                <div
+                    className="h-full px-3 py-4 overflow-y-auto bg-secDark no-scrollbar"
+                    onClick={closeSidebar}
+                >
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link
@@ -180,7 +177,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         <li className="w-full h-[1px] bg-textDark-400"></li>
                     </ul>
 
-                    <YourPlaylists open={open}/>
+                    <YourPlaylists open={open} />
                 </div>
             </aside>
 
