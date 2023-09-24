@@ -3,15 +3,15 @@ require("dotenv").config();
 const cors = require("cors");
 const axios = require("axios");
 
-const app = express();
-app.use(express.json());
-app.use(
+const streamApp = express();
+streamApp.use(express.json());
+streamApp.use(
     cors({
         origin: process.env.CLIENT_URL,
     })
 );
 
-app.get("/stream", async (req, res) => {
+streamApp.get("/stream", async (req, res) => {
     try {
         const url = new URL(req.query?.url);
 
@@ -44,4 +44,4 @@ app.get("/stream", async (req, res) => {
     }
 });
 
-app.listen(8001);
+streamApp.listen(8001);
