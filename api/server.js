@@ -10,6 +10,16 @@ const connect = require("./utils/db");
 const cookieParser = require("cookie-parser");
 
 const app = express();
+
+const streamApp = express();
+streamApp.use(express.json());
+
+streamApp.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+    })
+);
+
 app.use(
     cors({
         credentials: true,
@@ -76,17 +86,6 @@ app.get("/songs/:genre", async (req, res) => {
         return res.status(404);
     }
 });
-
-const cors = require("cors");
-
-const streamApp = express();
-streamApp.use(express.json());
-
-streamApp.use(
-    cors({
-        origin: process.env.CLIENT_URL,
-    })
-);
 
 streamApp.get("/stream", async (req, res) => {
     try {
