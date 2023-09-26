@@ -6,12 +6,12 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserDetails } from "../redux/UserSlice";
 
 import toast from "react-hot-toast";
 import { AxiosContext } from "../context/AxiosProvider";
-import { RootState } from "../redux/store/Store";
+// import { RootState } from "../redux/store/Store";
 import { UserType } from "../types";
 
 
