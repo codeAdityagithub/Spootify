@@ -45,7 +45,7 @@ const Login = () => {
     });
     const navigate = useNavigate();
     // const { setCurrentUser } = useContext(AuthContext);
-    const username = useSelector((state: RootState) => state.user.username);
+    // const username = useSelector((state: RootState) => state.user.username);
     const dispatch = useDispatch();
     const { authStatus, setAuthStatus } = useContext(AxiosContext);
     const { mutate, isLoading, isError, error }: mutationType =
@@ -53,7 +53,7 @@ const Login = () => {
             mutationFn: loginUser,
             onSuccess: (data: UserType) => {
                 setAuthStatus("authenticated");
-                toast.success(`Welcome back, ${username}!`, {
+                toast.success(`Welcome back, ${data.username}!`, {
                     className: "bg-secDark text-textDark-200",
                 });
                 dispatch(setUserDetails(data));
