@@ -56,7 +56,6 @@ const Login = () => {
                 toast.success(`Welcome back, ${username}!`, {
                     className: "bg-secDark text-textDark-200",
                 });
-                sessionStorage.setItem("accessToken", data.accessToken);
                 dispatch(setUserDetails(data));
                 navigate("/");
             },

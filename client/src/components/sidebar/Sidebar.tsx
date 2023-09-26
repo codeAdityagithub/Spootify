@@ -55,7 +55,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             toast.success("Logged Out Succesfully!", {
                 className: "bg-secDark text-textDark-200",
             });
-            sessionStorage.removeItem("accessToken");
             queryClient.invalidateQueries(["userPlaylists", _id]);
         },
     });

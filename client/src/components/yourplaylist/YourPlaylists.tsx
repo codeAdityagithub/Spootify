@@ -15,15 +15,13 @@ type Props = {
     open: () => Boolean;
 };
 
-const YourPlaylists = ({ open }: Props) => {
+const YourPlaylists = ({ open}: Props) => {
     const { accessToken: token, _id } = useSelector(
         (state: RootState) => state.user
     );
     const { instance, authStatus } = useContext(AxiosContext);
-    const [firstTry, setFirstTry] = useState(false);
-    useEffect(() => {
-        setFirstTry(true);
-    }, []);
+    const [firstTry, setFirstTry] = useState(true);
+
     // const imageRef = useRef<HTMLImageElement>(null);
     const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -33,7 +31,7 @@ const YourPlaylists = ({ open }: Props) => {
             const res = await instance.get(
                 `${import.meta.env.VITE_API_URL}/user/playlists`,
                 {
-                    // headers: { authorization: "Bearer " +  },
+                    headers: { authorization: "Bearer " + token },
                 }
             );
             // console.log(res.data.playlists);
@@ -41,7 +39,7 @@ const YourPlaylists = ({ open }: Props) => {
         },
 
         refetchInterval: 1000 * 60 * 5,
-        // enabled: firstTry,
+        enabled: firstTry || authStatus === "authenticated",
     });
 
     useEffect(() => {

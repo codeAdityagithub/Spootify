@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { UserType } from "../types";
 
 import axios, { AxiosInstance } from "axios";
@@ -29,19 +29,10 @@ export const AxiosContext = createContext<authContext>(null!);
 
 const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
     // const { accessToken, setCurrentUser } = useContext(AuthContext);
-    const [token, setToken] = useState<null | string>(null);
+    // const { accessToken } = useSelector((state: RootState) => state.user);
     const [authStatus, setAuthStatus] = useState<statusType>("unauthenticated");
-
-    useEffect(() => {
-        setToken(sessionStorage.getItem("accessToken"));
-        console.log(sessionStorage.getItem("accessToken"));
-    }, []);
-
     const instance = axios.create({
-        headers: {
-            "Content-Type": "application/json",
-            authorization: "Bearer " + token,
-        },
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
     });
 
@@ -52,7 +43,7 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
             let currentDate = new Date();
             const accessToken = config.headers["authorization"].split(" ")[1];
             // console.log(accessToken);
-            if (token && accessToken === "") {
+            if (accessToken === "") {
                 // no accessToken was there
                 //   getting refreshTOken and if not there then it will return unauthorized
                 await axios
@@ -62,7 +53,6 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
                     })
                     .then((res) => {
                         const newAccessToken = res.data.accessToken;
-                        console.log("getting refresh token", newAccessToken);
 
                         const userData: any = jwtDecode(newAccessToken);
 
@@ -75,8 +65,6 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
                         //     ...prev,
                         //     accessToken: newAccessToken,
                         // }));
-                        sessionStorage.setItem("accessToken", newAccessToken);
-
                         dispatch(
                             setUserDetails({
                                 _id: userData._id,
@@ -89,8 +77,6 @@ const AxiosContextProvider = ({ children }: { children: React.ReactNode }) => {
                     })
                     .catch((error) => {
                         console.log(error.message);
-                        sessionStorage.removeItem("accessToken");
-
                         setAuthStatus("unauthenticated");
                     });
                 return config;
