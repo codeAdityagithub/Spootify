@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
-const axios=require("axios")
+const axios = require("axios");
 const ncs = require("nocopyrightsounds-api");
 const authRouter = require("./auth/auth");
 const userRouter = require("./routers/user");
@@ -14,7 +14,6 @@ app.use(
     cors({
         credentials: true,
         origin: process.env.CLIENT_URL,
-        
     })
 );
 app.use(cookieParser());
@@ -25,7 +24,7 @@ app.use("/auth", authRouter);
 
 app.use("/user", userRouter);
 
-connect();
+// connect();
 // public routes
 app.get("/songs", async (req, res) => {
     const page = Number(req.query.page);
@@ -107,12 +106,14 @@ app.get("/stream", async (req, res) => {
                 });
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(404).send("Invalid Playback url");
     }
 });
 
-
-const port = process.env.PORT || 8000;
-
-app.listen(port);
+const PORT = process.env.PORT || 8000;
+connect().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    });
+});

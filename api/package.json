@@ -6,7 +6,8 @@
     "type": "commonjs",
     "scripts": {
         "dev": "nodemon server.js",
-        "stream": "nodemon streamServer.js"
+        "stream": "nodemon streamServer.js",
+        "start":"node server.js"
     },
     "keywords": [],
     "author": "",
