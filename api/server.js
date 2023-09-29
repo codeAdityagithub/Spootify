@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
+const axios=require("axios")
 const ncs = require("nocopyrightsounds-api");
 const authRouter = require("./auth/auth");
 const userRouter = require("./routers/user");
@@ -106,6 +107,7 @@ app.get("/stream", async (req, res) => {
                 });
         }
     } catch (error) {
+        console.log(error)
         res.status(404).send("Invalid Playback url");
     }
 });
