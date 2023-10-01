@@ -84,7 +84,7 @@ const MusicCard = ({
             >
                 {song.name}
             </div>
-            <p className="hidden w-full lg:block lg:text-sm lg:font-normal text-textSecDark line-clamp-2">
+            <p className="w-full block text-sm pl-2 lg:p-0 text-textSecDark line-clamp-1">
                 {song.artists.map((artist) => (
                     <span key={artist.name}>{artist.name + ", "}</span>
                 ))}

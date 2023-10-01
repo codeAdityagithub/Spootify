@@ -39,7 +39,7 @@ const YourPlaylists = ({ open}: Props) => {
         },
 
         refetchInterval: 1000 * 60 * 5,
-        enabled: firstTry || authStatus === "authenticated",
+        enabled: firstTry,
     });
 
     useEffect(() => {
