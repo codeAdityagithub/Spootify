@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-// import { useSearchParams } from "react-router-dom";
 import { Song } from "../types";
 
 import AddSongDialog from "../components/addsongtolist/AddSongDialog";
@@ -17,23 +15,18 @@ interface searchParams {
 }
 
 const Search = ({ query, genre, mood }: searchParams) => {
-    // let [searchParams] = useSearchParams();
-    // const genre = searchParams.get("genre");
-    // const mood = searchParams.get("mood");
-
-    let songs: Song[];
 
     const { data } = useQuery({
         queryKey: ["search", query],
         queryFn: async ({ signal }) => {
-            const data = await axios
+            const data: Song[] = await axios
                 .get(
                     `${
                         import.meta.env.VITE_API_URL
                     }/search?query=${query}&genre=&mood=`,
                     { signal }
                 )
-                .then((res) => res.data);
+                .then((res) => res.data.results);
             // console.log(data);
             return data;
         },
@@ -41,41 +34,32 @@ const Search = ({ query, genre, mood }: searchParams) => {
         enabled: Boolean(query.trim() !== "" && query.trim().length > 2),
     });
 
-    songs = data && data.results;
-
-    useEffect(() => {
-        if (!songs) return;
-        // console.log(Genre[Number(genre)]);
-        songs?.filter((song) => {
-            if (song.genre.replace(" ", "") === Genre[Number(genre)])
-                return song;
-        });
-    }, [genre, mood]);
-
+    const search = (data: Song[] | undefined): Song[] => {
+        if (!data) return [];
+        if (genre.trim() !== "" || mood.trim() !== "") {
+            // console.log("hi")
+            return data.filter(
+                (song) =>
+                    song.genre === Genre[Number(genre)] ||
+                    song.tags.some((tag) => tag.mood === Number(mood))
+            );
+        }
+        
+        return data;
+    };
+    
     return (
         <div className="results mb-2 px-4 flex flex-col gap-2">
             <AddSongDialog />
 
-            {songs && songs.length === 0 && (
+            {data && data.length === 0 && (
                 <div className="text-center text-textDark-200 text-lg">
                     No songs found 😓
                 </div>
             )}
-            {songs && genre === ""
-                ? songs.map((song, index) => (
-                      <SearchCard key={index} song={song} />
-                  ))
-                : songs
-                      ?.filter((song) => {
-                          if (
-                              song.genre.replace(" ", "") ===
-                              Genre[Number(genre)]
-                          )
-                              return song;
-                      })
-                      .map((song, index) => (
-                          <SearchCard key={index} song={song} />
-                      ))}
+            {search(data).map((song, index) => (
+                <SearchCard key={index} song={song} />
+            ))}
         </div>
     );
 };
