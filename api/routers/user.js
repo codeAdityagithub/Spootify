@@ -50,6 +50,8 @@ router.post("/addplaylist", async (req, res) => {
     if (!user)
         return res.status(404).send("Something went wrong! Please retry");
 
+    if(user.playlists.length>=5 && !user.premiumSubscriber) return res.status(403).send("You need a premium plan to have more than 5 playlists!")
+
     // if user if there
     const playlistName = req.body.playlistName;
     // console.log(user.playlists);

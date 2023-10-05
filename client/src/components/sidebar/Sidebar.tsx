@@ -147,6 +147,31 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                         </li>
                         {/* check if auth */}
                         {authStatus === "authenticated" ? (
+                            <>
+                            <li>
+                                <a
+                                    // onClick={() => {
+                                    //     mutate();
+                                    // }}
+                                    className="flex w-full items-center justify-center cursor-pointer p-2 py-3 rounded-lg text-textDark-200 hover:bg-gray-700 group"
+                                >
+                                    {/* svg */}
+                                    {/* <LogoutIcon
+                                        className="text-red-400"
+                                        fontSize={`${
+                                            open() ? "medium" : "large"
+                                        }`}
+                                    /> */}
+                                    Pro
+                                    <span
+                                        className={`flex-1 ml-3 whitespace-nowrap text-left ${
+                                            open() ? "" : "md:hidden"
+                                        }`}
+                                    >
+                                        Premium
+                                    </span>
+                                </a>
+                                </li>
                             <li>
                                 <a
                                     onClick={() => {
@@ -170,6 +195,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                                     </span>
                                 </a>
                             </li>
+                            </>
                         ) : null}
                         {isError && (
                             <p className="text-red-500">Something went wrong</p>
