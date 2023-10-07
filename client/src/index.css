@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 @layer components {
+    .animated-load{
+        background: #181818;
+        background: linear-gradient(110deg, #373737 8%, #515151 18%, #373737 33%);
+        border-radius: 3px;
+        background-size: 300% 100%;
+        animation: 4s shine linear infinite;
+    }
+    @keyframes shine {
+        to{
+            background-position-x: -300%;
+        }
+        
+      }
     .hoz-scrollbar {
         @apply transition-all;
     }

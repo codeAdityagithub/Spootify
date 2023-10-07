@@ -39,7 +39,7 @@ const App = (): React.ReactNode => {
     return (
         <Suspense
             fallback={
-                <h1 className="w-full h-screen text-6xl flex items-center justify-center">
+                <h1 className="w-full h-screen text-2xl bg-baseDark text-textDark-200 flex items-center justify-center">
                     Loading...
                 </h1>
             }

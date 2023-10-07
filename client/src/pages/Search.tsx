@@ -52,7 +52,7 @@ const Search = ({ query, genre, mood }: searchParams) => {
         <div className="results mb-2 px-4 flex flex-col gap-2">
             <AddSongDialog />
 
-            {data && data.length === 0 && (
+            {data && (data.length === 0 || search(data).length==0) && (
                 <div className="text-center text-textDark-200 text-lg">
                     No songs found 😓
                 </div>
