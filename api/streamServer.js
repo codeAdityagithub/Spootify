@@ -11,6 +11,10 @@ streamApp.use(
     })
 );
 
+streamApp.get("/cron", (req, res) => {
+    res.send("Cronjob executed");
+});
+
 streamApp.get("/stream", async (req, res) => {
     try {
         const url = new URL(req.query?.url);
