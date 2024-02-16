@@ -48,4 +48,4 @@ streamApp.get("/stream", async (req, res) => {
     }
 });
 
-streamApp.listen(8001);
+streamApp.listen(process.env.PORT || 8001);
